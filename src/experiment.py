@@ -6,6 +6,7 @@ from src.rnn import RNN
 
 class Experiment:
     def __init__(self):
+        tf.reset_default_graph()
         self.rnn = None
         self.rnn_config = None
 
@@ -40,6 +41,7 @@ class Experiment:
 
                 sess.run(self.rnn.train_op, feed_dict={self.rnn.labelled_data.is_validation: False,
                                                        self.rnn.learning_rate: training_config['learning_rate']})
+                print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
 
         return result_dict
 
@@ -64,9 +66,9 @@ class Experiment:
             if info_config['include_pred']:
                 result_dict[dict_key]['preds'].append(pred)
 
-        result_dict[dict_key]['accs'].append(acc)
         result_dict[dict_key]['loss'].append(loss)
         result_dict[dict_key]['epochs'].append(epoch)
+        print('{} | Validation: {}, Accuracy: {}, Loss: {}'.format(epoch, is_validation, acc, loss))
         return result_dict
 
 

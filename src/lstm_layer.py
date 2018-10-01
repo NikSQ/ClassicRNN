@@ -39,7 +39,15 @@ class LSTMLayer:
             self.cell_state = None
             self.cell_output = None
 
-    def create_forward_pass(self, layer_input):
+            if self.layer_config['regularization']['mode'] == 'zoneout':
+                self.state_zoneout_dist = tf.distributions.Bernoulli(probs=
+                                                                     self.layer_config['regularization']['state_zo_prob'],
+                                                                     dtype=tf.float32, allow_nan_stats=False)
+                self.output_zoneout_dist = tf.distributions.Bernoulli(probs=
+                                                                      self.layer_config['regularization']['output_zo_prob'],
+                                                                      dtype=tf.float32, allow_nan_stats=False)
+
+    def create_forward_pass(self, layer_input, is_validation):
         if self.cell_state is None:
             cell_shape = (tf.shape(layer_input)[0], self.b_shape[1])
             self.cell_state = tf.zeros(cell_shape)
@@ -50,6 +58,20 @@ class LSTMLayer:
         i = tf.sigmoid(tf.matmul(layer_input, self.wi) + self.bi)
         o = tf.sigmoid(tf.matmul(layer_input, self.wo) + self.bo)
         c = tf.tanh(tf.matmul(layer_input, self.wc) + self.bc)
-        self.cell_state = tf.multiply(f, self.cell_state) + tf.multiply(i, c)
-        self.cell_output = tf.multiply(o, tf.tanh(self.cell_state))
+
+        updated_state = tf.multiply(f, self.cell_state) + tf.multiply(i, c)
+        updated_output = tf.multiply(o, tf.tanh(self.cell_state))
+
+        if self.layer_config['regularization']['mode'] == 'zoneout':
+            state_mask = self.state_zoneout_dist.sample(tf.shape(self.cell_state))
+            output_mask = self.output_zoneout_dist.sample(tf.shape(self.cell_output))
+
+            training_state = tf.multiply(state_mask, self.cell_state) + tf.multiply(1 - state_mask, updated_state)
+            training_output = tf.multiply(output_mask, self.cell_output) + tf.multiply(1 - output_mask, updated_output)
+            self.cell_state = tf.cond(is_validation, lambda: updated_state, lambda: training_state)
+            self.cell_output = tf.cond(is_validation, lambda: updated_output, lambda: training_output)
+        else:
+            self.cell_state = updated_state
+            self.cell_output = updated_output
+
         return self.cell_output

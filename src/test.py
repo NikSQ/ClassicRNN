@@ -5,6 +5,8 @@ sys.path.append('../')
 
 from src.experiment import Experiment
 
+runs=5
+
 labelled_data_config = {'dataset': 'pen_stroke_small',
                         'in_seq_len': 20,
                         'out_seq_len': 6,
@@ -25,7 +27,10 @@ hidden_2_config = {'layer_type': 'lstm',
                                    'i': {'w': 'xavier', 'b': 'all_zero'},
                                    'c': {'w': 'xavier', 'b': 'all_zero'},
                                    'o': {'w': 'xavier', 'b': 'all_zero'}},
-                   'is_recurrent': True}
+                   'is_recurrent': True,
+                   'regularization': {'mode': 'no_reg',
+                                      'state_zo_prob': 0.5,
+                                      'output_zo_prob': 0.05}}
 
 output_config = {'layer_type': 'fc',
                  'var_scope': 'output_layer',
@@ -46,6 +51,9 @@ info_config = {'calc_tr_performance_every': 1,
                'include_pred': False,
                'include_out': False}
 
-experiment = Experiment()
-print(experiment.train(rnn_config, labelled_data_config, training_config, info_config))
+result_dicts = []
+for run in range(runs):
+    experiment = Experiment()
+    result_dicts.append(experiment.train(rnn_config, labelled_data_config, training_config, info_config))
+
 

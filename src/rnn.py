@@ -14,6 +14,7 @@ class RNN:
         self.output = None
         self.prediction = None
         self.accuracy = None
+        self.gradients = None # Used to find a good value to clip
 
         with tf.variable_scope('global'):
             self.learning_rate = tf.placeholder(tf.float32)
@@ -40,7 +41,7 @@ class RNN:
                 layer_input = labelled_data.x[:, :, seq_idx]
                 for layer in self.layers:
                     if (seq_idx >= start_output_idx) or (layer.layer_config['is_recurrent'] is True):
-                        layer_input = layer.create_forward_pass(layer_input)
+                        layer_input = layer.create_forward_pass(layer_input, labelled_data.is_validation)
                 if seq_idx >= start_output_idx:
                     outputs.append(tf.expand_dims(layer_input, axis=2))
 
@@ -51,16 +52,16 @@ class RNN:
                 self.output = output
                 self.prediction = output
             elif self.rnn_config['output_type'] == 'classification':
-                self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output, labels=labelled_data.y,
-                                                                              dim=1))
-                self.output = tf.nn.softmax(output, dim=1)
+                self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output,
+                                                                                      labels=labelled_data.y, dim=1))
+                self.output = tf.nn.softmax(output, axis=1)
                 self.prediction = tf.argmax(output, axis=1)
                 self.accuracy = tf.reduce_mean(tf.cast(tf.equal(self.prediction,
                                                                 tf.argmax(self.labelled_data.y, axis=1)),
                                                        dtype=tf.float32))
 
             optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
-            gradients = optimizer.compute_gradients(self.loss)
+            self.gradients = optimizer.compute_gradients(self.loss)
 
             clipped_gradients = [(grad, var) if grad is None else
                                  (tf.clip_by_value(grad, -self.rnn_config['gradient_clip_value'],
