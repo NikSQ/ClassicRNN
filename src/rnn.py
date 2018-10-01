@@ -9,6 +9,11 @@ class RNN:
         self.layers = []
         self.train_op = None
         self.labelled_data = None
+        self.loss = None
+        self.accuracy = None
+        self.output = None
+        self.prediction = None
+        self.accuracy = None
 
         with tf.variable_scope('global'):
             self.learning_rate = tf.placeholder(tf.float32)
@@ -37,21 +42,30 @@ class RNN:
                     if (seq_idx >= start_output_idx) or (layer.layer_config['is_recurrent'] is True):
                         layer_input = layer.create_forward_pass(layer_input)
                 if seq_idx >= start_output_idx:
-                    outputs.append(layer_input)
+                    outputs.append(tf.expand_dims(layer_input, axis=2))
 
-            output = tf.concat(outputs, axis=0)
+            output = tf.concat(outputs, axis=2)
 
             if self.rnn_config['output_type'] == 'regression':
-                loss = tf.reduce_mean(tf.square(output - labelled_data.y))
+                self.loss = tf.reduce_mean(tf.square(output - labelled_data.y))
+                self.output = output
+                self.prediction = output
             elif self.rnn_config['output_type'] == 'classification':
-                loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output, labels=labelled_data.y))
+                self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output, labels=labelled_data.y,
+                                                                              dim=1))
+                self.output = tf.nn.softmax(output, dim=1)
+                self.prediction = tf.argmax(output, axis=1)
+                self.accuracy = tf.reduce_mean(tf.cast(tf.equal(self.prediction,
+                                                                tf.argmax(self.labelled_data.y, axis=1)),
+                                                       dtype=tf.float32))
 
             optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
-            gradients = optimizer.compute_gradients(loss)
+            gradients = optimizer.compute_gradients(self.loss)
 
             clipped_gradients = [(grad, var) if grad is None else
                                  (tf.clip_by_value(grad, -self.rnn_config['gradient_clip_value'],
-                                                   self.rnn_config['gradient_clip_value']), var) for grad, var in gradients]
+                                                   self.rnn_config['gradient_clip_value']), var)
+                                 for grad, var in gradients]
             self.train_op = optimizer.apply_gradients(clipped_gradients)
 
 

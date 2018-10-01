@@ -39,7 +39,6 @@ class LSTMLayer:
             self.cell_state = None
             self.cell_output = None
 
-    # TODO: Initializer cell state and output somewhere
     def create_forward_pass(self, layer_input):
         if self.cell_state is None:
             cell_shape = (tf.shape(layer_input)[0], self.b_shape[1])

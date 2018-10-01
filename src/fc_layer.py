@@ -16,6 +16,7 @@ class FCLayer:
             self.w = tf.get_variable(name='w', shape=self.w_shape, initializer=w_initializer)
             self.b = tf.get_variable(name='b', shape=self.b_shape, initializer=b_initializer)
 
+    # Returns the output of the layer. If its the output layer, this only returns the activation!
     def create_forward_pass(self, layer_input):
         if self.layer_config['is_output']:
             return tf.matmul(layer_input, self.w) + self.b
