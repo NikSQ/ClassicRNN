@@ -1,4 +1,5 @@
 import sys
+import os
 import tensorflow as tf
 
 sys.path.append('../')
@@ -6,8 +7,15 @@ sys.path.append('../')
 from src.experiment import Experiment
 from src.tools import process_results
 
-runs=2
 
+try:
+    task_id = int(os.environ['SLURM_ARRAY_TASK_ID'])
+except KeyError:
+    print('NO SLURM TASK ID FOUND')
+    print('Using ID 0 instead')
+    task_id = 0
+
+runs = 2
 labelled_data_config = {'dataset': 'pen_stroke_small',
                         'in_seq_len': 5,
                         'out_seq_len': 1,
