@@ -34,14 +34,17 @@ class Experiment:
                                                               labelled_data.y_placeholder: data_dict['y_va']})
 
             for epoch in range(training_config['max_epochs']):
-                if epoch % info_config['calc_tr_performance_every'] == 0:
-                    result_dict = self.retrieve_performance(sess, False, info_config, result_dict, epoch)
-                if epoch % info_config['calc_va_performance_every'] == 0:
-                    result_dict = self.retrieve_performance(sess, True, info_config, result_dict, epoch)
+                if epoch % info_config['calc_performance_every'] == 0:
+                    result_dict, tr_acc, tr_loss = self.retrieve_performance(sess, False, info_config, result_dict,
+                                                                             epoch)
+                    result_dict, va_acc, va_loss = self.retrieve_performance(sess, True, info_config, result_dict,
+                                                                             epoch)
+                    print('{} | TrAcc: {:6.4f}, TrLoss: {:8.5f}, VaAcc: {:6.4f}, VaLoss: {:8.5f}'
+                          .format(epoch, tr_acc, tr_loss, va_acc, va_loss))
 
                 sess.run(self.rnn.train_op, feed_dict={self.rnn.labelled_data.is_validation: False,
                                                        self.rnn.learning_rate: training_config['learning_rate']})
-                print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
+                # print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
 
         return result_dict
 
@@ -68,7 +71,7 @@ class Experiment:
 
         result_dict[dict_key]['loss'].append(loss)
         result_dict[dict_key]['epochs'].append(epoch)
-        print('{} | Validation: {}, Accuracy: {}, Loss: {}'.format(epoch, is_validation, acc, loss))
-        return result_dict
+
+        return result_dict, acc, loss
 
 

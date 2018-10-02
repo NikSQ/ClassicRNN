@@ -4,12 +4,13 @@ import tensorflow as tf
 sys.path.append('../')
 
 from src.experiment import Experiment
+from src.tools import process_results
 
-runs=5
+runs=2
 
 labelled_data_config = {'dataset': 'pen_stroke_small',
-                        'in_seq_len': 20,
-                        'out_seq_len': 6,
+                        'in_seq_len': 5,
+                        'out_seq_len': 1,
                         'do_zero_padding': False}
 
 input_config = {'layer_type': 'input'}
@@ -38,22 +39,28 @@ output_config = {'layer_type': 'fc',
                  'is_recurrent': False,
                  'is_output': True}
 
-rnn_config = {'layout': [4, 20, 20, 10],
-              'layer_configs': [input_config, hidden_1_config, hidden_2_config, output_config],
-              'gradient_clip_value': 1.0,
+rnn_config = {'layout': [4, 5, 10],
+              'layer_configs': [input_config, hidden_2_config, output_config],
+              'gradient_clip_value': .4,
               'output_type': 'classification'}
 
 training_config = {'learning_rate': 0.1,
-                   'max_epochs': 10}
+                   'max_epochs': 3}
 
-info_config = {'calc_tr_performance_every': 1,
-               'calc_va_performance_every': 1,
+info_config = {'calc_performance_every': 1,
                'include_pred': False,
                'include_out': False}
+
+result_config = {'save_results': False,
+                 'filename': '../numerical_results/test',
+                 'plot_results': False,
+                 'print_final_stats': True}
 
 result_dicts = []
 for run in range(runs):
     experiment = Experiment()
     result_dicts.append(experiment.train(rnn_config, labelled_data_config, training_config, info_config))
+print('----------------------------')
+process_results(result_config, result_dicts)
 
 

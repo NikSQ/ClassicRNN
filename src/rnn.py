@@ -66,7 +66,7 @@ class RNN:
             clipped_gradients = [(grad, var) if grad is None else
                                  (tf.clip_by_value(grad, -self.rnn_config['gradient_clip_value'],
                                                    self.rnn_config['gradient_clip_value']), var)
-                                 for grad, var in gradients]
+                                 for grad, var in self.gradients]
             self.train_op = optimizer.apply_gradients(clipped_gradients)
 
 
