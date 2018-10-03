@@ -55,31 +55,36 @@ def extract_seqs(x, y, seqlens, labelled_data_config):
 
 
 class LabelledData:
-    def __init__(self, x_shape, y_shape, n_tr_samples, n_va_samples):
-        self.n_tr_samples = n_tr_samples
-        self.n_va_samples = n_va_samples
-        self.x_shape = x_shape
-        self.y_shape = y_shape
+    def __init__(self, labelled_data_config, x_tr_shape, y_tr_shape, x_va_shape, y_va_shape):
+        self.x_tr_shape = x_tr_shape
+        self.y_tr_shape = y_tr_shape
+        self.x_va_shape = x_va_shape
+        self.y_va_shape = y_tr_shape
 
         with tf.variable_scope('labelled_data'):
-            self.x_placeholder = tf.placeholder(dtype=tf.float32, shape=(None,) + x_shape)
-            self.y_placeholder = tf.placeholder(dtype=tf.float32, shape=(None,) + y_shape)
-            self.x_tr = tf.get_variable(name='x_tr', shape=(n_tr_samples,) + x_shape, dtype=tf.float32)
-            self.y_tr = tf.get_variable(name='y_tr', shape=(n_tr_samples,) + y_shape, dtype=tf.float32)
-            self.x_va = tf.get_variable(name='x_va', shape=(n_va_samples,) + x_shape, dtype=tf.float32)
-            self.y_va = tf.get_variable(name='y_va', shape=(n_va_samples,) + y_shape, dtype=tf.float32)
-            self.is_validation = tf.placeholder(name='is_validation', dtype=tf.bool)
+            self.x_tr_placeholder = tf.placeholder(dtype=tf.float32, shape=x_tr_shape)
+            self.y_tr_placeholder = tf.placeholder(dtype=tf.float32, shape=y_tr_shape)
+            self.x_va_placeholder = tf.placeholder(dtype=tf.float32, shape=x_va_shape)
+            self.y_va_placeholder = tf.placeholder(dtype=tf.float32, shape=y_va_shape)
+            self.x_tr = tf.get_variable(name='x_tr', shape=x_tr_shape, dtype=tf.float32, trainable=False)
+            self.y_tr = tf.get_variable(name='y_tr', shape=y_tr_shape, dtype=tf.float32, trainable=False)
+            self.x_va = tf.get_variable(name='x_va', shape=x_va_shape, dtype=tf.float32, trainable=False)
+            self.y_va = tf.get_variable(name='y_va', shape=y_va_shape, dtype=tf.float32, trainable=False)
 
-            assign_x_tr_op = tf.assign(self.x_tr, self.x_placeholder)
-            assign_y_tr_op = tf.assign(self.y_tr, self.y_placeholder)
+            assign_x_tr_op = tf.assign(self.x_tr, self.x_tr_placeholder)
+            assign_y_tr_op = tf.assign(self.y_tr, self.y_tr_placeholder)
             self.load_tr_set_op = tf.group(*[assign_x_tr_op, assign_y_tr_op])
 
-            assign_x_va_op = tf.assign(self.x_va, self.x_placeholder)
-            assign_y_va_op = tf.assign(self.y_va, self.y_placeholder)
+            assign_x_va_op = tf.assign(self.x_va, self.x_va_placeholder)
+            assign_y_va_op = tf.assign(self.y_va, self.y_va_placeholder)
             self.load_va_set_op = tf.group(*[assign_x_va_op, assign_y_va_op])
 
-            self.x = tf.cond(self.is_validation, lambda: self.x_va, lambda: self.x_tr)
-            self.y = tf.cond(self.is_validation, lambda: self.y_va, lambda: self.y_tr)
+            #if labelled_data_config['batch_mode']:
+                #self.counter =
+                #samples = tf.random_shuffle(tf.range(tf.shape(self.x)[0]))[:labelled_data_config['batch_size']][0]
+                #self.x = self.x[samples]
+                #self.y = self.y[samples]
+
 
 
 

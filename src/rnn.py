@@ -1,20 +1,27 @@
 import tensorflow as tf
 from src.fc_layer import FCLayer
 from src.lstm_layer import LSTMLayer
+import copy
 
 
 class RNN:
-    def __init__(self, rnn_config):
+    def __init__(self, rnn_config, labelled_data):
         self.rnn_config = rnn_config
+        self.labelled_data = labelled_data
         self.layers = []
         self.train_op = None
-        self.labelled_data = None
-        self.loss = None
-        self.accuracy = None
-        self.output = None
-        self.prediction = None
         self.accuracy = None
         self.gradients = None # Used to find a good value to clip
+
+        self.tr_acc = None
+        self.tr_pred = None
+        self.tr_loss = None
+        self.tr_out = None
+
+        self.va_acc = None
+        self.va_pred = None
+        self.va_loss = None
+        self.va_out = None
 
         with tf.variable_scope('global'):
             self.learning_rate = tf.placeholder(tf.float32)
@@ -31,37 +38,43 @@ class RNN:
 
             self.layers.append(layer)
 
-    def create_training_graph(self, labelled_data):
-        self.labelled_data = labelled_data
+    def create_rnn_graph(self, x, y, x_shape, y_shape, mod_rnn_config):
+        seq_outputs = []
+        start_output_idx = x_shape[2] - y_shape[2]
+
+        for seq_idx in range(x_shape[2]):
+            layer_input = x[:, :, seq_idx]
+            for layer_idx, layer in enumerate(self.layers, 1):
+                if (seq_idx >= start_output_idx) or layer.layer_config['is_recurrent']:
+                    layer_input = layer.create_forward_pass(layer_input, mod_rnn_config['layer_configs'][layer_idx],
+                                                            seq_idx == 0)
+            if seq_idx >= start_output_idx:
+                seq_outputs.append(tf.expand_dims(layer_input, axis=2))
+
+        output = tf.concat(seq_outputs, axis=2)
+
+        if self.rnn_config['output_type'] == 'regression':
+            loss = tf.reduce_mean(tf.square(output - y))
+            prediction = output
+            accuracy = None
+            output = None
+        elif self.rnn_config['output_type'] == 'classification':
+            loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output, labels=y, dim=1))
+            output = tf.nn.softmax(output, axis=1)
+            prediction = tf.argmax(output, axis=1)
+            accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, tf.argmax(y, axis=1)),
+                                              dtype=tf.float32))
+
+        return loss, prediction, accuracy, output
+
+    def create_training_graph(self):
         with tf.variable_scope('training'):
-            outputs = []
-            start_output_idx = labelled_data.x_shape[1] - labelled_data.y_shape[1]
-
-            for seq_idx in range(labelled_data.x_shape[1]):
-                layer_input = labelled_data.x[:, :, seq_idx]
-                for layer in self.layers:
-                    if (seq_idx >= start_output_idx) or (layer.layer_config['is_recurrent'] is True):
-                        layer_input = layer.create_forward_pass(layer_input, labelled_data.is_validation)
-                if seq_idx >= start_output_idx:
-                    outputs.append(tf.expand_dims(layer_input, axis=2))
-
-            output = tf.concat(outputs, axis=2)
-
-            if self.rnn_config['output_type'] == 'regression':
-                self.loss = tf.reduce_mean(tf.square(output - labelled_data.y))
-                self.output = output
-                self.prediction = output
-            elif self.rnn_config['output_type'] == 'classification':
-                self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output,
-                                                                                      labels=labelled_data.y, dim=1))
-                self.output = tf.nn.softmax(output, axis=1)
-                self.prediction = tf.argmax(output, axis=1)
-                self.accuracy = tf.reduce_mean(tf.cast(tf.equal(self.prediction,
-                                                                tf.argmax(self.labelled_data.y, axis=1)),
-                                                       dtype=tf.float32))
+            self.tr_loss, self.tr_pred, self.tr_acc, self.tr_out = \
+                self.create_rnn_graph(self.labelled_data.x_tr, self.labelled_data.y_tr, self.labelled_data.x_tr_shape,
+                                      self.labelled_data.y_tr_shape, self.rnn_config)
 
             optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
-            self.gradients = optimizer.compute_gradients(self.loss)
+            self.gradients = optimizer.compute_gradients(self.tr_loss)
 
             clipped_gradients = [(grad, var) if grad is None else
                                  (tf.clip_by_value(grad, -self.rnn_config['gradient_clip_value'],
@@ -69,11 +82,15 @@ class RNN:
                                  for grad, var in self.gradients]
             self.train_op = optimizer.apply_gradients(clipped_gradients)
 
+    def create_validation_graph(self):
+        with tf.variable_scope('validation'):
+            graph_config = copy.deepcopy(self.rnn_config)
+            for layer_config in graph_config['layer_configs']:
+                if 'regularization' in layer_config:
+                    #layer_config['regularization']['mode'] = None
+                    u = 1
 
-
-
-
-
-
-
+            self.va_loss, self.va_pred, self.va_acc, self.va_out = \
+                self.create_rnn_graph(self.labelled_data.x_va, self.labelled_data.y_va, self.labelled_data.x_va_shape,
+                                      self.labelled_data.y_va_shape, graph_config)
 

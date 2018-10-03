@@ -47,8 +47,8 @@ class LSTMLayer:
                                                                       self.layer_config['regularization']['output_zo_prob'],
                                                                       dtype=tf.float32, allow_nan_stats=False)
 
-    def create_forward_pass(self, layer_input, is_validation):
-        if self.cell_state is None:
+    def create_forward_pass(self, layer_input, mod_layer_config, do_initialize):
+        if do_initialize:
             cell_shape = (tf.shape(layer_input)[0], self.b_shape[1])
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
@@ -62,14 +62,11 @@ class LSTMLayer:
         updated_state = tf.multiply(f, self.cell_state) + tf.multiply(i, c)
         updated_output = tf.multiply(o, tf.tanh(self.cell_state))
 
-        if self.layer_config['regularization']['mode'] == 'zoneout':
+        if mod_layer_config['regularization']['mode'] == 'zoneout':
             state_mask = self.state_zoneout_dist.sample(tf.shape(self.cell_state))
             output_mask = self.output_zoneout_dist.sample(tf.shape(self.cell_output))
-
-            training_state = tf.multiply(state_mask, self.cell_state) + tf.multiply(1 - state_mask, updated_state)
-            training_output = tf.multiply(output_mask, self.cell_output) + tf.multiply(1 - output_mask, updated_output)
-            self.cell_state = tf.cond(is_validation, lambda: updated_state, lambda: training_state)
-            self.cell_output = tf.cond(is_validation, lambda: updated_output, lambda: training_output)
+            self.cell_state = tf.multiply(state_mask, self.cell_state) + tf.multiply(1 - state_mask, updated_state)
+            self.cell_output = tf.multiply(output_mask, self.cell_output) + tf.multiply(1 - output_mask, updated_output)
         else:
             self.cell_state = updated_state
             self.cell_output = updated_output
