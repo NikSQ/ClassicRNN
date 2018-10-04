@@ -8,6 +8,8 @@ class Experiment:
     def __init__(self):
         tf.reset_default_graph()
         self.rnn = None
+        self.labelled_data = None
+        self.labelled_data_config = None
         self.rnn_config = None
 
     def create_rnn(self, rnn_config, labelled_data):
@@ -20,11 +22,12 @@ class Experiment:
 
     def train(self, rnn_config, labelled_data_config, training_config, info_config):
         data_dict = load_dataset(labelled_data_config)
-        #self.remove_data(data_dict, )
-
+        self.remove_data(data_dict, 445)
         labelled_data = LabelledData(labelled_data_config, data_dict['x_tr'].shape, data_dict['y_tr'].shape,
                                      data_dict['x_va'].shape, data_dict['y_va'].shape)
         self.create_rnn(rnn_config, labelled_data)
+        self.labelled_data = labelled_data
+        self.labelled_data_config = labelled_data_config
 
         # Initialize dictionary where all results are stored
         result_dict = {'tr': {'outs': [], 'loss': [], 'preds': [], 'accs': [], 'epochs': []},
@@ -39,27 +42,56 @@ class Experiment:
 
             for epoch in range(training_config['max_epochs']):
                 if epoch % info_config['calc_performance_every'] == 0:
-                    tr_acc, tr_loss, va_acc, va_loss = self.retrieve_performance(sess, info_config, result_dict, epoch)
+                    tr_acc, tr_loss, va_acc, va_loss = self.store_performance(sess, info_config, result_dict, epoch)
                     print('{} | TrAcc: {:6.4f}, TrLoss: {:8.5f}, VaAcc: {:6.4f}, VaLoss: {:8.5f}'
                           .format(epoch, tr_acc, tr_loss, va_acc, va_loss))
 
-                sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate']})
+                if labelled_data_config['mini_batch_mode']:
+                    sess.run(labelled_data.shuffle_tr_samples)
+                    for minibatch_idx in range(labelled_data.n_tr_minibatches):
+                        sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate'],
+                                                               labelled_data.batch_counter: minibatch_idx})
+                else:
+                    sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate']})
                 # print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
 
         return result_dict
 
-    def retrieve_performance(self, sess, info_config, result_dict, epoch):
-        if self.rnn_config['output_type'] == 'classification':
-            tr_out, tr_pred, tr_loss, tr_acc = sess.run([self.rnn.tr_out, self.rnn.tr_pred, self.rnn.tr_loss,
-                                                         self.rnn.tr_acc])
-            va_out, va_pred, va_loss, va_acc = sess.run([self.rnn.va_out, self.rnn.va_pred, self.rnn.va_loss,
-                                                         self.rnn.va_acc])
+    def retrieve_performance(self, sess):
+        if self.labelled_data_config['mini_batch_mode']:
+            tr_cum_loss = 0
+            tr_cum_acc = 0
+            va_cum_loss = 0
+            va_cum_acc = 0
+
+            for minibatch_idx in range(self.labelled_data.n_tr_minibatches):
+                loss, acc = sess.run([self.rnn.tr_loss, self.rnn.tr_acc],
+                                     feed_dict={self.labelled_data.batch_counter: minibatch_idx})
+                tr_cum_loss += loss
+                tr_cum_acc += acc
+            for minibatch_idx in range(self.labelled_data.n_va_minibatches):
+                loss, acc = sess.run([self.rnn.va_loss, self.rnn.va_acc],
+                                     feed_dict={self.labelled_data.batch_counter: minibatch_idx})
+                va_cum_loss += loss
+                va_cum_acc += acc
+            tr_acc = tr_cum_acc / self.labelled_data.n_tr_minibatches
+            tr_loss = tr_cum_loss / self.labelled_data.n_tr_minibatches
+            va_acc = va_cum_acc / self.labelled_data.n_va_minibatches
+            va_loss = va_cum_loss / self.labelled_data.n_va_minibatches
         else:
-            tr_out, tr_loss = sess.run([self.rnn.tr_out, self.rnn.tr_loss])
-            va_out, va_loss = sess.run([self.rnn.va_out, self.rnn.va_loss])
-            tr_acc, va_acc, tr_pred, va_pred = None
-        self.update_result_dict(result_dict, info_config, 'tr', tr_out, tr_acc, tr_pred, tr_loss, epoch)
-        self.update_result_dict(result_dict, info_config, 'va', va_out, va_acc, va_pred, va_loss, epoch)
+            loss, acc = sess.run([self.rnn.tr_loss, self.rnn.tr_acc])
+            tr_loss = loss
+            tr_acc = acc
+            loss, acc = sess.run([self.rnn.va_loss, self.rnn.va_acc])
+            va_loss = loss
+            va_acc = acc
+
+        return tr_loss, tr_acc, va_loss, va_acc
+
+    def store_performance(self, sess, info_config, result_dict, epoch):
+        tr_loss, tr_acc, va_loss, va_acc = self.retrieve_performance(sess)
+        self.update_result_dict(result_dict, info_config, 'tr', None, tr_acc, None, tr_loss, epoch)
+        self.update_result_dict(result_dict, info_config, 'va', None, va_acc, None, va_loss, epoch)
         return tr_acc, tr_loss, va_acc, va_loss
 
     def update_result_dict(self, result_dict, info_config, dict_key, out, acc, pred, loss, epoch):

@@ -17,11 +17,12 @@ except KeyError:
 
 runs = 1
 labelled_data_config = {'dataset': 'pen_stroke_small',
-                        'in_seq_len': 50,
-                        'out_seq_len': 1,
+                        'in_seq_len': 15,
+                        'out_seq_len': 5,
                         'do_zero_padding': False,
-                        'batch_mode': True,
-                        'batch_size': 10}
+                        'mini_batch_mode': True,
+                        'tr_batch_size': 10,
+                        'va_batch_size': 10}
 
 input_config = {'layer_type': 'input'}
 
@@ -52,7 +53,7 @@ output_config = {'layer_type': 'fc',
                  'is_output': True,
                  'regularization': {'mode': None}}
 
-rnn_config = {'layout': [4, 20, 10],
+rnn_config = {'layout': [4, 5, 10],
               'layer_configs': [input_config, hidden_2_config, output_config],
               'gradient_clip_value': .4,
               'output_type': 'classification'}

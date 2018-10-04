@@ -70,8 +70,8 @@ class RNN:
     def create_training_graph(self):
         with tf.variable_scope('training'):
             self.tr_loss, self.tr_pred, self.tr_acc, self.tr_out = \
-                self.create_rnn_graph(self.labelled_data.x_tr, self.labelled_data.y_tr, self.labelled_data.x_tr_shape,
-                                      self.labelled_data.y_tr_shape, self.rnn_config)
+                self.create_rnn_graph(self.labelled_data.x_tr_batch, self.labelled_data.y_tr_batch,
+                                      self.labelled_data.x_tr_shape, self.labelled_data.y_tr_shape, self.rnn_config)
 
             optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
             self.gradients = optimizer.compute_gradients(self.tr_loss)
@@ -91,6 +91,6 @@ class RNN:
                     u = 1
 
             self.va_loss, self.va_pred, self.va_acc, self.va_out = \
-                self.create_rnn_graph(self.labelled_data.x_va, self.labelled_data.y_va, self.labelled_data.x_va_shape,
-                                      self.labelled_data.y_va_shape, graph_config)
+                self.create_rnn_graph(self.labelled_data.x_va_batch, self.labelled_data.y_va_batch,
+                                      self.labelled_data.x_va_shape, self.labelled_data.y_va_shape, graph_config)
 
