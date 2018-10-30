@@ -15,7 +15,12 @@ class FCLayer:
             b_initializer = tf.constant_initializer(b_init_vals)
             self.w = tf.get_variable(name='w', shape=self.w_shape, initializer=w_initializer)
             self.b = tf.get_variable(name='b', shape=self.b_shape, initializer=b_initializer)
-            self.l2_loss = tf.nn.l2_loss(self.w) + tf.nn.l2_loss(self.b)
+
+            if self.layer_config['regularization']['mode'] == 'l2':
+                self.layer_loss = self.layer_config['regularization']['strength'] * (tf.nn.l2_loss(self.w) + \
+                                                                                     tf.nn.l2_loss(self.b))
+            else:
+                self.layer_loss = 0
 
     # Returns the output of the layer. If its the output layer, this only returns the activation!
     def create_forward_pass(self, layer_input, mod_layer_config, do_initialize):

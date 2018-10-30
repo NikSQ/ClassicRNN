@@ -52,14 +52,17 @@ class RNN:
                 seq_outputs.append(tf.expand_dims(layer_input, axis=2))
 
         output = tf.concat(seq_outputs, axis=2)
+        reg_loss = 0
+        for layer in self.layers:
+            reg_loss += layer.layer_loss
 
         if self.rnn_config['output_type'] == 'regression':
-            loss = tf.reduce_mean(tf.square(output - y))
+            loss = tf.reduce_mean(tf.square(output - y)) + reg_loss
             prediction = output
             accuracy = None
             output = None
         elif self.rnn_config['output_type'] == 'classification':
-            loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output, labels=y, dim=1))
+            loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output, labels=y, dim=1)) + reg_loss
             output = tf.nn.softmax(output, axis=1)
             prediction = tf.argmax(output, axis=1)
             accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, tf.argmax(y, axis=1)),
@@ -87,8 +90,7 @@ class RNN:
             graph_config = copy.deepcopy(self.rnn_config)
             for layer_config in graph_config['layer_configs']:
                 if 'regularization' in layer_config:
-                    #layer_config['regularization']['mode'] = None
-                    u = 1
+                    layer_config['regularization']['mode'] = None
 
             self.va_loss, self.va_pred, self.va_acc, self.va_out = \
                 self.create_rnn_graph(self.labelled_data.x_va_batch, self.labelled_data.y_va_batch,

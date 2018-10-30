@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import pprint
 
 
 def generate_init_values(init_config, w_shape, b_shape):
@@ -61,6 +62,18 @@ def convert_to_array(result_dicts, dict_key):
 
 def print_stats(name, values):
     print('{:15s}: {:9.5f} +- {:7.5f}'.format(name, np.mean(values), np.std(values, ddof=1)))
+
+
+def print_config(rnn_config, training_config, data_config):
+    print('\n=============================\nCONFIG FILE')
+    print('\nRNN CONFIG')
+    pprint.pprint(rnn_config)
+    print('\nDATA CONFIG')
+    pprint.pprint(labelled_data_config)
+    print('\nTRAINING CONFIG')
+    pprint.pprint(training_config)
+    print('==============================\n\n')
+
 
 
 

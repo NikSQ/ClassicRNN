@@ -22,7 +22,7 @@ class Experiment:
 
     def train(self, rnn_config, labelled_data_config, training_config, info_config):
         data_dict = load_dataset(labelled_data_config)
-        self.remove_data(data_dict, 445)
+        #self.remove_data(data_dict, 4000)
         labelled_data = LabelledData(labelled_data_config, data_dict['x_tr'].shape, data_dict['y_tr'].shape,
                                      data_dict['x_va'].shape, data_dict['y_va'].shape)
         self.create_rnn(rnn_config, labelled_data)
@@ -46,7 +46,7 @@ class Experiment:
                     print('{} | TrAcc: {:6.4f}, TrLoss: {:8.5f}, VaAcc: {:6.4f}, VaLoss: {:8.5f}'
                           .format(epoch, tr_acc, tr_loss, va_acc, va_loss))
 
-                if labelled_data_config['mini_batch_mode']:
+                if labelled_data_config['tr']['mini_batch_mode']:
                     sess.run(labelled_data.shuffle_tr_samples)
                     for minibatch_idx in range(labelled_data.n_tr_minibatches):
                         sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate'],
@@ -58,30 +58,33 @@ class Experiment:
         return result_dict
 
     def retrieve_performance(self, sess):
-        if self.labelled_data_config['mini_batch_mode']:
+        if self.labelled_data_config['tr']['mini_batch_mode']:
             tr_cum_loss = 0
             tr_cum_acc = 0
-            va_cum_loss = 0
-            va_cum_acc = 0
-
             for minibatch_idx in range(self.labelled_data.n_tr_minibatches):
                 loss, acc = sess.run([self.rnn.tr_loss, self.rnn.tr_acc],
                                      feed_dict={self.labelled_data.batch_counter: minibatch_idx})
                 tr_cum_loss += loss
                 tr_cum_acc += acc
+            tr_acc = tr_cum_acc / self.labelled_data.n_tr_minibatches
+            tr_loss = tr_cum_loss / self.labelled_data.n_tr_minibatches
+        else:
+            loss, acc = sess.run([self.rnn.tr_loss, self.rnn.tr_acc])
+            tr_loss = loss
+            tr_acc = acc
+
+        if self.labelled_data_config['va']['mini_batch_mode']:
+            va_cum_loss = 0
+            va_cum_acc = 0
             for minibatch_idx in range(self.labelled_data.n_va_minibatches):
                 loss, acc = sess.run([self.rnn.va_loss, self.rnn.va_acc],
                                      feed_dict={self.labelled_data.batch_counter: minibatch_idx})
                 va_cum_loss += loss
                 va_cum_acc += acc
-            tr_acc = tr_cum_acc / self.labelled_data.n_tr_minibatches
-            tr_loss = tr_cum_loss / self.labelled_data.n_tr_minibatches
+
             va_acc = va_cum_acc / self.labelled_data.n_va_minibatches
             va_loss = va_cum_loss / self.labelled_data.n_va_minibatches
         else:
-            loss, acc = sess.run([self.rnn.tr_loss, self.rnn.tr_acc])
-            tr_loss = loss
-            tr_acc = acc
             loss, acc = sess.run([self.rnn.va_loss, self.rnn.va_acc])
             va_loss = loss
             va_acc = acc

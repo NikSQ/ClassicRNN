@@ -46,6 +46,7 @@ class LSTMLayer:
                 self.output_zoneout_dist = tf.distributions.Bernoulli(probs=
                                                                       self.layer_config['regularization']['output_zo_prob'],
                                                                       dtype=tf.float32, allow_nan_stats=False)
+            self.layer_loss = 0
 
     def create_forward_pass(self, layer_input, mod_layer_config, do_initialize):
         if do_initialize:
