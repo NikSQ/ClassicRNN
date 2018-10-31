@@ -2,59 +2,98 @@ import tensorflow as tf
 from src.data_loader import load_dataset
 from src.data_tools import LabelledData
 from src.rnn import RNN
+from src.tools import print_config
 
 
 class Experiment:
     def __init__(self):
-        tf.reset_default_graph()
         self.rnn = None
         self.labelled_data = None
         self.labelled_data_config = None
         self.rnn_config = None
+        self.data_dict = None
 
-    def create_rnn(self, rnn_config, labelled_data):
+    def create_rnn(self, rnn_config, labelled_data, labelled_data_config):
         if self.rnn_config is None:
             self.rnn_config = rnn_config
         self.rnn = RNN(rnn_config, labelled_data)
 
         self.rnn.create_training_graph()
         self.rnn.create_validation_graph()
-
-    def train(self, rnn_config, labelled_data_config, training_config, info_config):
-        data_dict = load_dataset(labelled_data_config)
-        #self.remove_data(data_dict, 4000)
-        labelled_data = LabelledData(labelled_data_config, data_dict['x_tr'].shape, data_dict['y_tr'].shape,
-                                     data_dict['x_va'].shape, data_dict['y_va'].shape)
-        self.create_rnn(rnn_config, labelled_data)
         self.labelled_data = labelled_data
         self.labelled_data_config = labelled_data_config
+
+    def create_modificated_model(self, rnn_config, labelled_data_config, data_mod_config):
+        incremental_idx = data_mod_config['session_idx']
+        labelled_data_config['tr']['in_seq_len'] = data_mod_config['in_seq_len'][incremental_idx]
+        labelled_data_config['tr']['out_seq_len'] = data_mod_config['out_seq_len'][incremental_idx]
+        labelled_data_config['tr']['zero_padding'] = data_mod_config['zero_padding'][incremental_idx]
+        self.data_dict = load_dataset(labelled_data_config)
+        labelled_data = LabelledData(labelled_data_config, self.data_dict['x_tr'].shape, self.data_dict['y_tr'].shape,
+                                     self.data_dict['x_va'].shape, self.data_dict['y_va'].shape)
+        self.create_rnn(rnn_config, labelled_data, labelled_data_config)
+
+    def train(self, rnn_config, labelled_data_config, training_config, info_config):
+        print_config(rnn_config, training_config, labelled_data_config)
+        temp_model_path = '../models/temp' + str(training_config['task_id'])
+
+        if training_config['mode']['name'] == 'inc_lengths':
+            n_sessions = len(training_config['mode']['in_seq_len'])
+        elif training_config['mode']['name'] == 'max_epochs':
+            n_sessions = 1
+        else:
+            raise Exception('training mode not understood')
 
         # Initialize dictionary where all results are stored
         result_dict = {'tr': {'outs': [], 'loss': [], 'preds': [], 'accs': [], 'epochs': []},
                        'va': {'outs': [], 'loss': [], 'preds': [], 'accs': [], 'epochs': []}}
 
-        with tf.Session() as sess:
-            sess.run(tf.global_variables_initializer())
-            sess.run(labelled_data.load_tr_set_op, feed_dict={labelled_data.x_tr_placeholder: data_dict['x_tr'],
-                                                              labelled_data.y_tr_placeholder: data_dict['y_tr']})
-            sess.run(labelled_data.load_va_set_op, feed_dict={labelled_data.x_va_placeholder: data_dict['x_va'],
-                                                              labelled_data.y_va_placeholder: data_dict['y_va']})
+        current_epoch = 0
+        for session_idx in range(n_sessions):
+            tf.reset_default_graph()
+            if training_config['mode']['name'] == 'inc_lengths':
+                training_config['mode']['session_idx'] = session_idx
+                max_epochs = training_config['mode']['max_epochs'][session_idx]
+                min_error = training_config['mode']['min_errors'][session_idx]
+                self.create_modificated_model(rnn_config, labelled_data_config, training_config['mode'])
+            elif training_config['mode']['name'] == 'classic':
+                self.data_dict = load_dataset(labelled_data_config)
+                labelled_data = LabelledData(labelled_data_config, self.data_dict['x_tr'].shape, self.data_dict['y_tr'].shape,
+                                             self.data_dict['x_va'].shape, self.data_dict['y_va'].shape)
+                self.create_rnn(rnn_config, labelled_data, labelled_data_config)
+                max_epochs = training_config['max_epochs']
+                min_error = training_config['min_error']
 
-            for epoch in range(training_config['max_epochs']):
-                if epoch % info_config['calc_performance_every'] == 0:
-                    tr_acc, tr_loss, va_acc, va_loss = self.store_performance(sess, info_config, result_dict, epoch)
-                    print('{} | TrAcc: {:6.4f}, TrLoss: {:8.5f}, VaAcc: {:6.4f}, VaLoss: {:8.5f}'
-                          .format(epoch, tr_acc, tr_loss, va_acc, va_loss))
+            model_saver = tf.train.Saver(tf.trainable_variables())
+            with tf.Session() as sess:
+                sess.run(tf.global_variables_initializer())
+                if session_idx != 0:
+                    model_saver.restore(sess, temp_model_path)
+                sess.run(self.labelled_data.load_tr_set_op,
+                         feed_dict={self.labelled_data.x_tr_placeholder: self.data_dict['x_tr'],
+                                    self.labelled_data.y_tr_placeholder: self.data_dict['y_tr']})
+                sess.run(self.labelled_data.load_va_set_op,
+                         feed_dict={self.labelled_data.x_va_placeholder: self.data_dict['x_va'],
+                                    self.labelled_data.y_va_placeholder: self.data_dict['y_va']})
 
-                if labelled_data_config['tr']['mini_batch_mode']:
-                    sess.run(labelled_data.shuffle_tr_samples)
-                    for minibatch_idx in range(labelled_data.n_tr_minibatches):
-                        sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate'],
-                                                               labelled_data.batch_counter: minibatch_idx})
-                else:
-                    sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate']})
-                # print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
+                for epoch in range(max_epochs):
+                    if epoch % info_config['calc_performance_every'] == 0:
+                        tr_acc, tr_loss, va_acc, va_loss = self.store_performance(sess, info_config, result_dict, epoch)
+                        print('{:3}, {:2} | TrAcc: {:6.4f}, TrLoss: {:8.5f}, VaAcc: {:6.4f}, VaLoss: {:8.5f}'
+                              .format(current_epoch, session_idx, tr_acc, tr_loss, va_acc, va_loss))
+                        if tr_loss < min_error:
+                            break
 
+                    if labelled_data_config['tr']['mini_batch_mode']:
+                        sess.run(self.labelled_data.shuffle_tr_samples)
+                        for minibatch_idx in range(self.labelled_data.n_tr_minibatches):
+                            sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate'],
+                                                                   self.labelled_data.batch_counter: minibatch_idx})
+                    else:
+                        sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: training_config['learning_rate']})
+                    current_epoch += 1
+                    # print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
+                model_saver.save(sess, temp_model_path)
         return result_dict
 
     def retrieve_performance(self, sess):

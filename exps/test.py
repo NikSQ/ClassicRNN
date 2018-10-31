@@ -23,17 +23,17 @@ timit_l_dataset = ['timit_tr_l_0', 'timit_va_l_0']
 penstroke_dataset = 'pen_stroke_small'
 # timit: 13 -> 54
 # penstroke: 4 -> 10
-labelled_data_config = {'dataset': timit_dataset,
-                        'tr': {'in_seq_len': 15,
-                               'out_seq_len': 5,
+labelled_data_config = {'dataset': timit_l_dataset,
+                        'tr': {'in_seq_len': 2,
+                               'out_seq_len': 1,
+                               'zero_padding': 0,
+                               'mini_batch_mode': True,
+                               'batch_size': 5000},
+                        'va': {'in_seq_len': 3,
+                               'out_seq_len': 1,
                                'zero_padding': 2,
                                'mini_batch_mode': True,
-                               'batch_size': 1000},
-                        'va': {'in_seq_len': 15,
-                               'out_seq_len': 5,
-                               'zero_padding': 2,
-                               'mini_batch_mode': True,
-                               'batch_size': 1000}}
+                               'batch_size': 5000}}
 
 input_config = {'layer_type': 'input'}
 
@@ -54,7 +54,7 @@ hidden_2_config = {'layer_type': 'lstm',
                                    'o': {'w': 'xavier', 'b': 'all_zero'}},
                    'is_recurrent': True,
                    'is_output': False,
-                   'regularization': {'mode': 'zoneout',
+                   'regularization': {'mode': None,
                                       'state_zo_prob': .5,
                                       'output_zo_prob': 0.35}}
 
@@ -63,10 +63,10 @@ output_config = {'layer_type': 'fc',
                  'init_config': {'w': 'xavier', 'b': 'all_zero'},
                  'is_recurrent': False,
                  'is_output': True,
-                 'regularization': {'mode': 'l2',
+                 'regularization': {'mode': None,
                                     'strength': 0.02}}
 
-rnn_config = {'layout': [13, 15, 54],
+rnn_config = {'layout': [13, 50, 54],
               'layer_configs': [input_config, hidden_2_config, output_config],
               'gradient_clip_value': .5,
               'output_type': 'classification'}
@@ -74,9 +74,12 @@ rnn_config = {'layout': [13, 15, 54],
 training_config = {'learning_rate': 0.1,
                    'max_epochs': 1000,
                    'mode': {'name': 'inc_lengths',
-                            'in_seq_len': np.arange(10, 30),
-                            'out_seq_len': np.arange(5, 25),
-                            'epochs': np.arange(20) * 5}}
+                            'in_seq_len': [1, 2, 4, 8, 16],
+                            'out_seq_len': [1, 1, 2, 4, 12],
+                            'zero_padding': [0, 0, 0, 2, 2],
+                            'min_errors': [3.5, 3.5, 3, 2, 0.1],
+                            'max_epochs': [20, 20, 20, 20, 20]},
+                   'task_id': task_id}
 
 info_config = {'calc_performance_every': 1,
                'include_pred': False,

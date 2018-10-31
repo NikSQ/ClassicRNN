@@ -49,7 +49,6 @@ def extract_seqs(x, y, seqlens, data_config):
             x_seqs[seq_idx] = x[sample_idx, :, extraction_idx:extraction_idx+in_seq_len]
             y_seqs[seq_idx] = y[sample_idx, :, extraction_idx+in_seq_len-out_seq_len:extraction_idx+in_seq_len]
             seq_idx += 1
-
     return x_seqs, y_seqs
 
 
@@ -58,7 +57,7 @@ class LabelledData:
         self.x_tr_shape = x_tr_shape
         self.y_tr_shape = y_tr_shape
         self.x_va_shape = x_va_shape
-        self.y_va_shape = y_tr_shape
+        self.y_va_shape = y_va_shape
 
         with tf.variable_scope('labelled_data'):
             self.x_tr_placeholder = tf.placeholder(dtype=tf.float32, shape=x_tr_shape)
@@ -95,8 +94,8 @@ class LabelledData:
                 self.shuffle_va_samples, self.x_va_batch, self.y_va_batch, self.n_va_minibatches = \
                     self.create_minibatch_support(labelled_data_config['va'], 'va', self.x_va_shape, self.x_va,
                                                   self.y_va)
-                self.x_tr_shape = (labelled_data_config['va']['batch_size'],) + self.x_va_shape[1:]
-                self.y_tr_shape = (labelled_data_config['va']['batch_size'],) + self.y_va_shape[1:]
+                self.x_va_shape = (labelled_data_config['va']['batch_size'],) + self.x_va_shape[1:]
+                self.y_va_shape = (labelled_data_config['va']['batch_size'],) + self.y_va_shape[1:]
             else:
                 self.x_tr_batch = self.x_tr
                 self.y_tr_batch = self.y_tr
@@ -111,13 +110,11 @@ class LabelledData:
         n_samples = batch_size * n_minibatches
 
         # A shuffled list of sample indices. Iterating over the complete list will be one epoch
-        sample_list = tf.get_variable(name= dict_key + '_sample_list', shape=n_samples, dtype=tf.int32)
-
-        samples = tf.tile(tf.random_shuffle(tf.range(x_shape[0])), multiples=[2])
+        sample_list = tf.get_variable(name=dict_key + '_sample_list', shape=n_samples, dtype=tf.int32, trainable=False)
+        samples = tf.tile(tf.random_shuffle(tf.range(x_shape[0])), multiples=[int(np.ceil(n_samples / x_shape[0]))])
         shuffle_samples_op = tf.assign(sample_list, samples[:n_samples])
 
         x_batch = tf.gather(x, indices=samples[self.batch_counter:self.batch_counter+batch_size])
         y_batch = tf.gather(y, indices=samples[self.batch_counter:self.batch_counter+batch_size])
-
         return shuffle_samples_op, x_batch, y_batch, n_minibatches
 
