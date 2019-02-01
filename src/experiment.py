@@ -1,5 +1,5 @@
 import tensorflow as tf
-from src.data_loader import load_dataset
+from src.loader import load_dataset
 from src.data_tools import LabelledData
 from src.rnn import RNN
 from src.tools import print_config
@@ -29,8 +29,8 @@ class Experiment:
         labelled_data_config['tr']['out_seq_len'] = data_mod_config['out_seq_len'][incremental_idx]
         labelled_data_config['tr']['zero_padding'] = data_mod_config['zero_padding'][incremental_idx]
         self.data_dict = load_dataset(labelled_data_config)
-        labelled_data = LabelledData(labelled_data_config, self.data_dict['x_tr'].shape, self.data_dict['y_tr'].shape,
-                                     self.data_dict['x_va'].shape, self.data_dict['y_va'].shape)
+        labelled_data = LabelledData(labelled_data_config, self.data_dict['tr']['x'].shape, self.data_dict['tr']['y'].shape,
+                                     self.data_dict['va']['x'].shape, self.data_dict['va']['y'].shape)
         self.create_rnn(rnn_config, labelled_data, labelled_data_config)
 
     def train(self, rnn_config, labelled_data_config, training_config, info_config):
@@ -39,7 +39,7 @@ class Experiment:
 
         if training_config['mode']['name'] == 'inc_lengths':
             n_sessions = len(training_config['mode']['in_seq_len'])
-        elif training_config['mode']['name'] == 'max_epochs':
+        elif training_config['mode']['name'] == 'classic':
             n_sessions = 1
         else:
             raise Exception('training mode not understood')
@@ -58,11 +58,11 @@ class Experiment:
                 self.create_modificated_model(rnn_config, labelled_data_config, training_config['mode'])
             elif training_config['mode']['name'] == 'classic':
                 self.data_dict = load_dataset(labelled_data_config)
-                labelled_data = LabelledData(labelled_data_config, self.data_dict['x_tr'].shape, self.data_dict['y_tr'].shape,
-                                             self.data_dict['x_va'].shape, self.data_dict['y_va'].shape)
+                labelled_data = LabelledData(labelled_data_config, self.data_dict['tr']['x'].shape, self.data_dict['tr']['y'].shape,
+                                             self.data_dict['va']['x'].shape, self.data_dict['va']['y'].shape)
                 self.create_rnn(rnn_config, labelled_data, labelled_data_config)
-                max_epochs = training_config['max_epochs']
-                min_error = training_config['min_error']
+                max_epochs = training_config['mode']['max_epochs']
+                min_error = training_config['mode']['min_error']
 
             model_saver = tf.train.Saver(tf.trainable_variables())
             with tf.Session() as sess:
@@ -70,11 +70,11 @@ class Experiment:
                 if session_idx != 0:
                     model_saver.restore(sess, temp_model_path)
                 sess.run(self.labelled_data.load_tr_set_op,
-                         feed_dict={self.labelled_data.x_tr_placeholder: self.data_dict['x_tr'],
-                                    self.labelled_data.y_tr_placeholder: self.data_dict['y_tr']})
+                         feed_dict={self.labelled_data.x_tr_placeholder: self.data_dict['tr']['x'],
+                                    self.labelled_data.y_tr_placeholder: self.data_dict['tr']['y']})
                 sess.run(self.labelled_data.load_va_set_op,
-                         feed_dict={self.labelled_data.x_va_placeholder: self.data_dict['x_va'],
-                                    self.labelled_data.y_va_placeholder: self.data_dict['y_va']})
+                         feed_dict={self.labelled_data.x_va_placeholder: self.data_dict['va']['x'],
+                                    self.labelled_data.y_va_placeholder: self.data_dict['va']['y']})
 
                 for epoch in range(max_epochs):
                     if epoch % info_config['calc_performance_every'] == 0:
@@ -107,6 +107,7 @@ class Experiment:
                 tr_cum_acc += acc
             tr_acc = tr_cum_acc / self.labelled_data.n_tr_minibatches
             tr_loss = tr_cum_loss / self.labelled_data.n_tr_minibatches
+            out = sess.run(self.rnn.tr_out, feed_dict={self.labelled_data.batch_counter: 0})
         else:
             loss, acc = sess.run([self.rnn.tr_loss, self.rnn.tr_acc])
             tr_loss = loss
