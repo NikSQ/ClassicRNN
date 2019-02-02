@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pprint
 
 
@@ -33,19 +32,22 @@ def process_results(result_config, result_dicts):
         np.save(result_config['filename'] + '_va_losses', va_losses)
         np.save(result_config['filename'] + '_va_epochs', va_epochs)
 
-    if result_config['plot_results']:
-        plt.plot(tr_epochs, np.mean(tr_accs, axis=0))
-        plt.plot(va_epochs, np.mean(va_accs, axis=0))
-        plt.legend(['training', 'validation'])
-        plt.xlabel('epoch')
-        plt.ylabel('accuracy')
-        plt.show()
+    #if result_config['plot_results']:
+        #plt.plot(tr_epochs, np.mean(tr_accs, axis=0))
+        #plt.plot(va_epochs, np.mean(va_accs, axis=0))
+        #plt.legend(['training', 'validation'])
+        #plt.xlabel('epoch')
+        #plt.ylabel('accuracy')
+        #plt.show()
 
     if result_config['print_final_stats']:
         print_stats('Final Tr Acc', tr_accs[:, -1])
         print_stats('Final Va Acc', va_accs[:, -1])
         print_stats('Final Tr Loss', tr_losses[:, -1])
         print_stats('Final Va Loss', va_losses[:, -1])
+        print_best('TrAcc', tr_accs)
+        print_best('VaAcc', va_accs)
+        print(tr_accs.shape)
 
 
 def convert_to_array(result_dicts, dict_key):
@@ -62,6 +64,13 @@ def convert_to_array(result_dicts, dict_key):
 
 def print_stats(name, values):
     print('{:15s}: {:9.5f} +- {:7.5f}'.format(name, np.mean(values), np.std(values, ddof=1)))
+
+
+def print_best(name, values):
+    print('')
+    print(name)
+    for run in range(values.shape[0]):
+        print('Run: {:2d} | {:4.2f}% in epoch {:4d}'.format(run, 100*np.max(values[run, :]), np.argmax(values[run, :])))
 
 
 def print_config(rnn_config, training_config, data_config):

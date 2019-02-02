@@ -36,8 +36,6 @@ def load_single_file(l_data_config):
                                                               data_dict['tr']['seqlen'], l_data_config['tr'])
     data_dict['va']['x'], data_dict['va']['y'] = extract_seqs(dataset['x_va'], dataset['y_va'],
                                                               data_dict['va']['seqlen'], l_data_config['va'])
-    print(data_dict['tr']['x'].shape)
-    print(data_dict['va']['x'].shape)
     return data_dict
 
 
