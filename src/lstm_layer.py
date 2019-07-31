@@ -1,9 +1,12 @@
 import tensorflow as tf
+import numpy as np
 from src.tools import generate_init_values
+from src.tools import get_batchnormalizer
 
 class LSTMLayer:
-    def __init__(self, rnn_config, layer_idx):
+    def __init__(self, rnn_config, layer_idx, is_training):
         self.rnn_config = rnn_config
+        self.is_training = is_training
         self.layer_config = rnn_config['layer_configs'][layer_idx]
         self.w_shape = (rnn_config['layout'][layer_idx-1] + rnn_config['layout'][layer_idx],
                    rnn_config['layout'][layer_idx])
@@ -54,14 +57,16 @@ class LSTMLayer:
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
 
-        layer_input = tf.concat([layer_input, self.cell_output], axis=1)
-        f = tf.sigmoid(tf.matmul(layer_input, self.wf) + self.bf)
-        i = tf.sigmoid(tf.matmul(layer_input, self.wi) + self.bi)
-        o = tf.sigmoid(tf.matmul(layer_input, self.wo) + self.bo)
-        c = tf.tanh(tf.matmul(layer_input, self.wc) + self.bc)
+        x = tf.concat([layer_input, self.cell_output], axis=1)
+        x = get_batchnormalizer()(x, self.is_training)
+
+        f = self.bf + tf.matmul(x, self.wf)
+        i = self.bi + tf.matmul(x, self.wi)
+        o = self.bo + tf.matmul(x, self.wo)
+        c = self.bc + tf.matmul(x, self.wc)
 
         updated_state = tf.multiply(f, self.cell_state) + tf.multiply(i, c)
-        updated_output = tf.multiply(o, tf.tanh(self.cell_state))
+        updated_output = tf.multiply(o, tf.tanh(get_batchnormalizer()(updated_state, self.is_training)))
 
         if mod_layer_config['regularization']['mode'] == 'zoneout':
             state_mask = self.state_zoneout_dist.sample(tf.shape(self.cell_state))
@@ -73,3 +78,4 @@ class LSTMLayer:
             self.cell_output = updated_output
 
         return self.cell_output
+

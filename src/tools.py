@@ -1,5 +1,6 @@
 import numpy as np
 import pprint
+import tensorflow as tf
 
 
 def generate_init_values(init_config, w_shape, b_shape):
@@ -23,6 +24,7 @@ def generate_init_values(init_config, w_shape, b_shape):
 def process_results(result_config, result_dicts):
     tr_accs, tr_losses, tr_epochs = convert_to_array(result_dicts, 'tr')
     va_accs, va_losses, va_epochs = convert_to_array(result_dicts, 'va')
+    te_accs, te_losses, te_epochs = convert_to_array(result_dicts, 'te')
 
     if result_config['save_results']:
         np.save(result_config['filename'] + '_tr_accs', tr_accs)
@@ -31,6 +33,9 @@ def process_results(result_config, result_dicts):
         np.save(result_config['filename'] + '_va_accs', va_accs)
         np.save(result_config['filename'] + '_va_losses', va_losses)
         np.save(result_config['filename'] + '_va_epochs', va_epochs)
+        np.save(result_config['filename'] + '_te_accs', te_accs)
+        np.save(result_config['filename'] + '_te_losses', te_losses)
+        np.save(result_config['filename'] + '_te_epochs', te_epochs)
 
     #if result_config['plot_results']:
         #plt.plot(tr_epochs, np.mean(tr_accs, axis=0))
@@ -46,7 +51,8 @@ def process_results(result_config, result_dicts):
         print_stats('Final Tr Loss', tr_losses[:, -1])
         print_stats('Final Va Loss', va_losses[:, -1])
         print_best('TrAcc', tr_accs)
-        print_best('VaAcc', va_accs)
+        epochs = print_best('VaAcc', va_accs)
+        print_best('TeAcc', te_accs, epochs)
         print(tr_accs.shape)
 
 
@@ -66,11 +72,18 @@ def print_stats(name, values):
     print('{:15s}: {:9.5f} +- {:7.5f}'.format(name, np.mean(values), np.std(values, ddof=1)))
 
 
-def print_best(name, values):
+def print_best(name, values, epochs=None):
     print('')
     print(name)
+    early_stop = True
+    if epochs is None:
+        epochs = []
+        early_stop = False
     for run in range(values.shape[0]):
-        print('Run: {:2d} | {:4.2f}% in epoch {:4d}'.format(run, 100*np.max(values[run, :]), np.argmax(values[run, :])))
+        if early_stop is False:
+            epochs.append(np.argmax(values[run, :]))
+        print('Run: {:2d} | {:4.2f}% in epoch {:4d}'.format(run, 100*values[run, epochs[run]], epochs[run]))
+    return epochs
 
 
 def print_config(rnn_config, training_config, data_config):
@@ -82,6 +95,17 @@ def print_config(rnn_config, training_config, data_config):
     print('\nTRAINING CONFIG')
     pprint.pprint(training_config)
     print('==============================\n\n')
+
+
+momentum = None
+
+def set_momentum(value):
+    global momentum
+    momentum = value
+
+def get_batchnormalizer():
+    gamma_init = tf.constant_initializer(value=.1)
+    return tf.keras.layers.BatchNormalization(center=False, gamma_initializer=gamma_init, momentum=momentum)
 
 
 

@@ -1,58 +1,58 @@
 import numpy as np
 from src.logging_tools import get_logger
 
+
 def extract_seqs(x, y, seqlens, data_config):
     logger = get_logger('DataContainer')
     in_seq_len = data_config['in_seq_len']
-    out_seq_len = data_config['out_seq_len']
+    seqlens = seqlens.astype(np.int32)
 
     if x.shape[0] != y.shape[0]:
         logger.critical("The numbers of samples in X ({}) does not match the number of samples in Y({})"
                         .format(x.shape[0], y.shape[0]))
         raise Exception("samples in X != samples in Y")
-    if out_seq_len > in_seq_len:
-        logger.critical("The output sequence ({}) can not be longer than the input sequence ({})"
-                        .format(out_seq_len, in_seq_len))
-        raise Exception("out_seq_len > in_seq_len")
 
     # Iterate over each sample
     n_samples = x.shape[0]
     raw_sample_length = x.shape[2]
-    logger.debug("Shaping {} data samples. InSeqLen: {}, OutSeqLen: {}".format(n_samples, in_seq_len, out_seq_len))
+    logger.debug("Shaping {} data samples. InSeqLen: {}".format(n_samples, in_seq_len))
 
     # Iterate over all samples and figure out how many sequences one can extract
     seq_extraction_ranges = []
     for sample_nr in range(n_samples):
-            beginning_time_idx = raw_sample_length - seqlens[sample_nr]
-
-            if data_config['extract_seqs']:
-                if data_config['zero_padding'] > 0:
-                    start_idx = max(0, beginning_time_idx - min(in_seq_len, data_config['zero_padding']))
-                else:
-                    start_idx = beginning_time_idx
-                seq_extraction_ranges.append(range(start_idx, raw_sample_length - in_seq_len))
-            elif in_seq_len >= seqlens[sample_nr]:
-                seq_extraction_ranges.append(range(raw_sample_length - in_seq_len,
-                                                   raw_sample_length - in_seq_len + 1))
+        beginning_time_idx = raw_sample_length - seqlens[sample_nr]
+        if in_seq_len + data_config['max_truncation'] >= seqlens[sample_nr]:
+            ranges = []
+            for start_idx in range(beginning_time_idx, beginning_time_idx + seqlens[sample_nr] - in_seq_len):
+                ranges.append(range(start_idx, start_idx + in_seq_len))
+            if seqlens[sample_nr] <= in_seq_len:
+                ranges.append(range(beginning_time_idx, raw_sample_length))
+            if len(ranges) > 1:
+                seq_extraction_ranges.append(ranges[np.random.choice(np.arange(len(ranges)))])
             else:
-                seq_extraction_ranges.append(range(1, 0))
+                seq_extraction_ranges.append(ranges[0])
+        else:
+            seq_extraction_ranges.append(range(1, 0))
 
-    n_sequences = sum([len(extraction_range) for extraction_range in seq_extraction_ranges])
+    n_sequences = sum(len(extraction_range) != 0 for extraction_range in seq_extraction_ranges)
     n_discarded_samples = sum([len(extraction_range) == 0 for extraction_range in seq_extraction_ranges])
     x_shape = (n_sequences, x.shape[1], in_seq_len)
-    y_shape = (n_sequences, y.shape[1], out_seq_len)
+    y_shape = (n_sequences, y.shape[1])
     logger.debug("Discarded {} data samples. Obtained {} sequences".format(n_sequences, n_discarded_samples))
 
     x_seqs = np.zeros(x_shape)
     y_seqs = np.zeros(y_shape)
+    end_time = np.zeros((n_sequences,))
 
     # Iterate again over the extraction indices and extract the sequences
     seq_idx = 0
     for sample_idx, extraction_range in enumerate(seq_extraction_ranges):
-        for extraction_idx in extraction_range:
-            x_seqs[seq_idx] = x[sample_idx, :, extraction_idx:extraction_idx+in_seq_len]
-            y_seqs[seq_idx] = y[sample_idx, :, extraction_idx+in_seq_len-out_seq_len:extraction_idx+in_seq_len]
+        if len(extraction_range) is not 0:
+            x_seqs[seq_idx, :, range(len(extraction_range))] = x[sample_idx, :, extraction_range]
+            y_seqs[seq_idx] = y[sample_idx, :, -1]
+            end_time[seq_idx] = len(extraction_range) - 1
             seq_idx += 1
-    return x_seqs, y_seqs
+
+    return x_seqs, y_seqs, end_time
 
 
