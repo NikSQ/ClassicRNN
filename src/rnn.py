@@ -5,28 +5,17 @@ import copy
 
 
 class RNN:
-    def __init__(self, rnn_config, labelled_data):
+    def __init__(self, rnn_config, training_config, l_data):
         self.rnn_config = rnn_config
-        self.labelled_data = labelled_data
+        self.l_data = l_data
         self.layers = []
         self.train_op = None
         self.accuracy = None
         self.gradients = None # Used to find a good value to clip
 
-        self.tr_acc = None
-        self.tr_pred = None
-        self.tr_loss = None
-        self.tr_out = None
-
-        self.va_acc = None
-        self.va_pred = None
-        self.va_loss = None
-        self.va_out = None
-
-        self.te_acc = None
-        self.te_pred = None
-        self.te_loss = None
-        self.te_out = None
+        self.metrics = dict()
+        for key in self.l_data.data.keys():
+            self.metrics[key] = dict()
 
         with tf.variable_scope('global'):
             self.learning_rate = tf.placeholder(tf.float32)
@@ -34,9 +23,9 @@ class RNN:
 
         for layer_idx, layer_config in enumerate(self.rnn_config['layer_configs']):
             if layer_config['layer_type'] == 'fc':
-                layer = FCLayer(rnn_config, layer_idx, self.is_training)
+                layer = FCLayer(rnn_config, training_config, layer_idx, self.is_training)
             elif layer_config['layer_type'] == 'lstm':
-                layer = LSTMLayer(rnn_config, layer_idx, self.is_training)
+                layer = LSTMLayer(rnn_config, training_config, layer_idx, self.is_training)
             elif layer_config['layer_type'] == 'input':
                 continue
             else:
@@ -44,7 +33,12 @@ class RNN:
 
             self.layers.append(layer)
 
-    def create_rnn_graph(self, x, y, end_times, x_shape, y_shape, mod_rnn_config):
+    def create_rnn_graph(self, data_key, mod_rnn_config):
+        x_shape = self.l_data.data[data_key]['x_shape']
+        y_shape = self.l_data.data[data_key]['y_shape']
+        x = self.l_data.data[data_key]['x_batch']
+        y = self.l_data.data[data_key]['y_batch']
+        end = self.l_data.data[data_key]['end_batch']
         outputs = []
 
         for seq_idx in range(x_shape[2]):
@@ -55,60 +49,42 @@ class RNN:
 
             outputs.append(layer_input)
         output = tf.stack(outputs, axis=1)
-        gather_idcs = tf.stack([tf.range(y_shape[0]), end_times], axis=1)
+        gather_idcs = tf.stack([tf.range(y_shape[0]), end], axis=1)
         output = tf.gather_nd(output, gather_idcs)
-        self.m = output
         reg_loss = 0
         for layer in self.layers:
             reg_loss += layer.layer_loss
 
-        if self.rnn_config['output_type'] == 'regression':
-            loss = tf.reduce_mean(tf.square(output - y)) + reg_loss
-            prediction = output
-            accuracy = None
-            output = None
-        elif self.rnn_config['output_type'] == 'classification':
-            loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output, labels=y, dim=1)) + reg_loss
-            output = tf.nn.softmax(output, axis=1)
-            prediction = tf.argmax(output, axis=1)
-            accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, tf.argmax(y, axis=1)),
-                                              dtype=tf.float32))
-
-        return loss, prediction, accuracy, output
+        loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=output, labels=y, dim=1)) + reg_loss
+        output = tf.nn.softmax(output, axis=1)
+        prediction = tf.argmax(output, axis=1)
+        accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, tf.argmax(y, axis=1)),
+                                          dtype=tf.float32))
+        self.metrics[data_key]['loss'] = loss
+        self.metrics[data_key]['pred'] = prediction
+        self.metrics[data_key]['acc'] = accuracy
+        self.metrics[data_key]['out'] = output
 
     def create_training_graph(self):
         with tf.variable_scope('training'):
-            self.tr_loss, self.tr_pred, self.tr_acc, self.tr_out = \
-                self.create_rnn_graph(self.labelled_data.x_tr_batch, self.labelled_data.y_tr_batch, self.labelled_data.end_tr_batch,
-                                      self.labelled_data.x_tr_shape, self.labelled_data.y_tr_shape, self.rnn_config)
+            self.create_rnn_graph('tr', self.rnn_config)
 
             optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
-            self.gradients = optimizer.compute_gradients(self.tr_loss)
+            self.gradients = optimizer.compute_gradients(self.metrics['tr']['loss'])
 
             clipped_gradients = [(grad, var) if grad is None else
                                  (tf.clip_by_value(grad, -self.rnn_config['gradient_clip_value'],
                                                    self.rnn_config['gradient_clip_value']), var)
                                  for grad, var in self.gradients]
-            self.train_op = optimizer.apply_gradients(clipped_gradients)
+            bn_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+            with tf.control_dependencies(bn_ops):
+                self.train_op = optimizer.apply_gradients(clipped_gradients)
 
-    def create_validation_graph(self):
-        with tf.variable_scope('validation'):
+    def create_evaluation_graph(self, data_key):
+        with tf.variable_scope(data_key):
             graph_config = copy.deepcopy(self.rnn_config)
             for layer_config in graph_config['layer_configs']:
                 if 'regularization' in layer_config:
                     layer_config['regularization']['mode'] = None
 
-            self.va_loss, self.va_pred, self.va_acc, self.va_out = \
-                self.create_rnn_graph(self.labelled_data.x_va_batch, self.labelled_data.y_va_batch, self.labelled_data.end_va_batch,
-                                      self.labelled_data.x_va_shape, self.labelled_data.y_va_shape, graph_config)
-
-    def create_test_graph(self):
-        with tf.variable_scope('test'):
-            graph_config = copy.deepcopy(self.rnn_config)
-            for layer_config in graph_config['layer_configs']:
-                if 'regularization' in layer_config:
-                    layer_config['regularization']['mode'] = None
-
-            self.te_loss, self.te_pred, self.te_acc, self.te_out = \
-                self.create_rnn_graph(self.labelled_data.x_te_batch, self.labelled_data.y_te_batch, self.labelled_data.end_te_batch,
-                                      self.labelled_data.x_te_shape, self.labelled_data.y_te_shape, graph_config)
+            self.create_rnn_graph(data_key, graph_config)

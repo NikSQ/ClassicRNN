@@ -4,13 +4,17 @@ from src.tools import generate_init_values
 from src.tools import get_batchnormalizer
 
 class LSTMLayer:
-    def __init__(self, rnn_config, layer_idx, is_training):
+    def __init__(self, rnn_config, training_config, layer_idx, is_training):
         self.rnn_config = rnn_config
+        self.training_config = training_config
         self.is_training = is_training
         self.layer_config = rnn_config['layer_configs'][layer_idx]
         self.w_shape = (rnn_config['layout'][layer_idx-1] + rnn_config['layout'][layer_idx],
                    rnn_config['layout'][layer_idx])
         self.b_shape = (1, self.w_shape[1])
+
+        self.bn_x = None
+        self.bn_cs = None
 
         with tf.variable_scope(self.layer_config['var_scope']):
             wf_init_vals, bf_init_vals = generate_init_values(self.layer_config['init_config']['f'],
@@ -58,15 +62,23 @@ class LSTMLayer:
             self.cell_output = tf.zeros(cell_shape)
 
         x = tf.concat([layer_input, self.cell_output], axis=1)
-        x = get_batchnormalizer()(x, self.is_training)
+        if self.bn_x is None:
+            self.bn_x = get_batchnormalizer()
+            self.bn_cs = get_batchnormalizer()
 
-        f = self.bf + tf.matmul(x, self.wf)
-        i = self.bi + tf.matmul(x, self.wi)
-        o = self.bo + tf.matmul(x, self.wo)
-        c = self.bc + tf.matmul(x, self.wc)
+        if self.training_config['batchnorm']:
+            x = self.bn_x(x, self.is_training)
 
-        updated_state = tf.multiply(f, self.cell_state) + tf.multiply(i, c)
-        updated_output = tf.multiply(o, tf.tanh(get_batchnormalizer()(updated_state, self.is_training)))
+        f = tf.sigmoid(self.bf + tf.matmul(x, self.wf, name='f'))
+        i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
+        o = tf.sigmoid(self.bo + tf.matmul(x, self.wo, name='o'))
+        c = tf.tanh(self.bc + tf.matmul(x, self.wc, name='c'))
+
+        updated_state = tf.multiply(f, self.cell_state, name='f_cs') + tf.multiply(i, c, name='i_cs')
+        if self.training_config['batchnorm']:
+            updated_output = tf.multiply(o, tf.tanh(self.bn_cs(updated_state, self.is_training)))
+        else:
+            updated_output = tf.multiply(o, tf.tanh(updated_state))
 
         if mod_layer_config['regularization']['mode'] == 'zoneout':
             state_mask = self.state_zoneout_dist.sample(tf.shape(self.cell_state))

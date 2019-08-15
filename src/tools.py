@@ -22,20 +22,17 @@ def generate_init_values(init_config, w_shape, b_shape):
 
 
 def process_results(result_config, result_dicts):
-    tr_accs, tr_losses, tr_epochs = convert_to_array(result_dicts, 'tr')
-    va_accs, va_losses, va_epochs = convert_to_array(result_dicts, 'va')
-    te_accs, te_losses, te_epochs = convert_to_array(result_dicts, 'te')
+    tr_accs, tr_losses = convert_to_array(result_dicts, 'tr')
+    va_accs, va_losses = convert_to_array(result_dicts, 'va')
+    te_accs, te_losses = convert_to_array(result_dicts, 'te')
 
     if result_config['save_results']:
         np.save(result_config['filename'] + '_tr_accs', tr_accs)
         np.save(result_config['filename'] + '_tr_losses', tr_losses)
-        np.save(result_config['filename'] + '_tr_epochs', tr_epochs)
         np.save(result_config['filename'] + '_va_accs', va_accs)
         np.save(result_config['filename'] + '_va_losses', va_losses)
-        np.save(result_config['filename'] + '_va_epochs', va_epochs)
         np.save(result_config['filename'] + '_te_accs', te_accs)
         np.save(result_config['filename'] + '_te_losses', te_losses)
-        np.save(result_config['filename'] + '_te_epochs', te_epochs)
 
     #if result_config['plot_results']:
         #plt.plot(tr_epochs, np.mean(tr_accs, axis=0))
@@ -64,8 +61,7 @@ def convert_to_array(result_dicts, dict_key):
         losses.append(np.expand_dims(np.asarray(result_dict[dict_key]['loss'], np.float32), axis=0))
     accs = np.concatenate(accs)
     losses = np.concatenate(losses)
-    epochs = np.asarray(result_dicts[0][dict_key]['epochs'])
-    return accs, losses, epochs
+    return accs, losses
 
 
 def print_stats(name, values):
@@ -86,14 +82,14 @@ def print_best(name, values, epochs=None):
     return epochs
 
 
-def print_config(rnn_config, training_config, data_config):
+def print_config(training_config, data_config, rnn_config):
     print('\n=============================\nCONFIG FILE')
     print('\nRNN CONFIG')
-    pprint.pprint(rnn_config)
+    pprint.pprint(training_config)
     print('\nDATA CONFIG')
     pprint.pprint(data_config)
     print('\nTRAINING CONFIG')
-    pprint.pprint(training_config)
+    pprint.pprint(rnn_config)
     print('==============================\n\n')
 
 
@@ -105,7 +101,7 @@ def set_momentum(value):
 
 def get_batchnormalizer():
     gamma_init = tf.constant_initializer(value=.1)
-    return tf.keras.layers.BatchNormalization(center=False, gamma_initializer=gamma_init, momentum=momentum)
+    return tf.keras.layers.BatchNormalization(axis=1, center=False, gamma_initializer=gamma_init, momentum=momentum)
 
 
 
