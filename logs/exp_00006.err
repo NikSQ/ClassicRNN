@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "../exps/pen_test.py", line 87, in <module>
-    training_config = {'learning_rate': lr[task_id],
-IndexError: list index out of range
