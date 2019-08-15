@@ -12,7 +12,9 @@ class FCLayer:
         self.layer_config = rnn_config['layer_configs'][layer_idx]
         self.w_shape = (rnn_config['layout'][layer_idx-1], rnn_config['layout'][layer_idx])
         self.b_shape = (1, self.w_shape[1])
-        self.bn_x = None
+
+        if self.training_config['batchnorm']:
+            self.bn_x = []
 
         with tf.variable_scope(self.layer_config['var_scope']):
             w_init_vals, b_init_vals = generate_init_values(self.layer_config['init_config'], self.w_shape, self.b_shape)
@@ -28,11 +30,11 @@ class FCLayer:
                 self.layer_loss = 0
 
     # Returns the output of the layer. If its the output layer, this only returns the activation!
-    def create_forward_pass(self, x, mod_layer_config, do_initialize):
-        if self.bn_x is None:
-            self.bn_x = get_batchnormalizer()
+    def create_forward_pass(self, x, mod_layer_config, time_idx):
         if self.training_config['batchnorm']:
-            x = self.bn_x(x, self.is_training)
+            if len(self.bn_x) == time_idx:
+                self.bn_x.append(get_batchnormalizer())
+            x = self.bn_x[time_idx](x, self.is_training)
         return tf.matmul(x, self.w) + self.b
         #return self.b + tf.matmul(layer_input, self.w)
 
