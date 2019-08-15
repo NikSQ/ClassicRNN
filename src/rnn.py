@@ -54,10 +54,10 @@ class RNN:
                                                         seq_idx == 0)
 
             outputs.append(layer_input)
-
         output = tf.stack(outputs, axis=1)
         gather_idcs = tf.stack([tf.range(y_shape[0]), end_times], axis=1)
         output = tf.gather_nd(output, gather_idcs)
+        self.m = output
         reg_loss = 0
         for layer in self.layers:
             reg_loss += layer.layer_loss

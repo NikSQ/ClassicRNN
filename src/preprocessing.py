@@ -52,6 +52,27 @@ def extract_seqs(x, y, seqlens, data_config):
             y_seqs[seq_idx] = y[sample_idx, :, -1]
             end_time[seq_idx] = len(extraction_range) - 1
             seq_idx += 1
+    unique, counts = np.unique(np.argmax(y_seqs, axis=1), return_counts=True)
+    n_samples_per_label = np.min(counts)
+    n_tot_samples = n_samples_per_label * len(counts)
+    x_shape = (n_tot_samples, x.shape[1], in_seq_len)
+    y_shape = (n_tot_samples, y.shape[1])
+    new_x_seqs = np.zeros(x_shape)
+    new_y_seqs = np.zeros(y_shape)
+    new_end_time = np.zeros((n_tot_samples,))
+    new_counts = np.zeros_like(counts)
+    seq_idx = 0
+    for sample_idx in range(n_sequences):
+        label = np.argmax(y_seqs[sample_idx])
+        if new_counts[label] >= n_samples_per_label:
+            continue
+        new_counts[label] += 1
+        new_x_seqs[seq_idx] = x_seqs[sample_idx]
+        new_y_seqs[seq_idx] = y_seqs[sample_idx]
+        new_end_time[seq_idx] = end_time[sample_idx]
+        seq_idx += 1
+    unique, counts = np.unique(np.argmax(new_y_seqs, axis=1), return_counts=True)
+    return new_x_seqs, new_y_seqs, new_end_time
 
     return x_seqs, y_seqs, end_time
 
