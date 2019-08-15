@@ -13,8 +13,9 @@ class LSTMLayer:
                    rnn_config['layout'][layer_idx])
         self.b_shape = (1, self.w_shape[1])
 
-        self.bn_x = None
-        self.bn_cs = None
+        if self.training_config['batchnorm']:
+            self.bn_x = []
+            self.bn_cs = []
 
         with tf.variable_scope(self.layer_config['var_scope']):
             wf_init_vals, bf_init_vals = generate_init_values(self.layer_config['init_config']['f'],
@@ -55,19 +56,19 @@ class LSTMLayer:
                                                                       dtype=tf.float32, allow_nan_stats=False)
             self.layer_loss = 0
 
-    def create_forward_pass(self, layer_input, mod_layer_config, do_initialize):
-        if do_initialize:
+    def create_forward_pass(self, layer_input, mod_layer_config, time_idx):
+        if time_idx == 0:
             cell_shape = (tf.shape(layer_input)[0], self.b_shape[1])
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
 
         x = tf.concat([layer_input, self.cell_output], axis=1)
-        if self.bn_x is None:
-            self.bn_x = get_batchnormalizer()
-            self.bn_cs = get_batchnormalizer()
 
         if self.training_config['batchnorm']:
-            x = self.bn_x(x, self.is_training)
+            if len(self.bn_x) == time_idx:
+                self.bn_x.append(get_batchnormalizer())
+                self.bn_cs.append(get_batchnormalizer())
+            x = self.bn_x[time_idx](x, self.is_training)
 
         f = tf.sigmoid(self.bf + tf.matmul(x, self.wf, name='f'))
         i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
@@ -76,7 +77,7 @@ class LSTMLayer:
 
         updated_state = tf.multiply(f, self.cell_state, name='f_cs') + tf.multiply(i, c, name='i_cs')
         if self.training_config['batchnorm']:
-            updated_output = tf.multiply(o, tf.tanh(self.bn_cs(updated_state, self.is_training)))
+            updated_output = tf.multiply(o, tf.tanh(self.bn_cs[time_idx](updated_state, self.is_training)))
         else:
             updated_output = tf.multiply(o, tf.tanh(updated_state))
 
