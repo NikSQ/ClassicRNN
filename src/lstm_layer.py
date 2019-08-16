@@ -8,6 +8,7 @@ class LSTMLayer:
         self.rnn_config = rnn_config
         self.training_config = training_config
         self.is_training = is_training
+        self.layer_idx = layer_idx
         self.layer_config = rnn_config['layer_configs'][layer_idx]
         self.w_shape = (rnn_config['layout'][layer_idx-1] + rnn_config['layout'][layer_idx],
                    rnn_config['layout'][layer_idx])
@@ -62,15 +63,15 @@ class LSTMLayer:
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
 
-        if self.training_config['batchnorm']:
-            if len(self.bn_x) == time_idx:
-                self.bn_x.append(get_batchnormalizer())
-                self.bn_h.append(get_batchnormalizer())
-            layer_input = self.bn_x[time_idx](layer_input, self.is_training)
-            co = self.bn_h[time_idx](self.cell_output, self.is_training)
-        else:
-            co = self.cell_output
-        x = tf.concat([layer_input, co], axis=1)
+        #if self.training_config['batchnorm']:
+            #if len(self.bn_x) == time_idx:
+                #self.bn_x.append(get_batchnormalizer())
+                #self.bn_h.append(get_batchnormalizer())
+            #layer_input = self.bn_x[time_idx](layer_input, self.is_training)
+            #co = self.bn_h[time_idx](self.cell_output, self.is_training)
+        #else:
+            #co = self.cell_output
+        x = tf.concat([layer_input, self.cell_output], axis=1)
 
         f = tf.sigmoid(self.bf + tf.matmul(x, self.wf, name='f'))
         i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
