@@ -15,7 +15,7 @@ class LSTMLayer:
 
         if self.training_config['batchnorm']:
             self.bn_x = []
-            self.bn_cs = []
+            self.bn_h = []
 
         with tf.variable_scope(self.layer_config['var_scope']):
             wf_init_vals, bf_init_vals = generate_init_values(self.layer_config['init_config']['f'],
@@ -62,13 +62,15 @@ class LSTMLayer:
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
 
-        x = tf.concat([layer_input, self.cell_output], axis=1)
-
         if self.training_config['batchnorm']:
             if len(self.bn_x) == time_idx:
                 self.bn_x.append(get_batchnormalizer())
-                self.bn_cs.append(get_batchnormalizer())
-            x = self.bn_x[time_idx](x, self.is_training)
+                self.bn_h.append(get_batchnormalizer())
+            layer_input = self.bn_x[time_idx](layer_input, self.is_training)
+            co = self.bn_h[time_idx](self.cell_output, self.is_training)
+        else:
+            co = self.cell_output
+        x = tf.concat([layer_input, co], axis=1)
 
         f = tf.sigmoid(self.bf + tf.matmul(x, self.wf, name='f'))
         i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
@@ -76,10 +78,7 @@ class LSTMLayer:
         c = tf.tanh(self.bc + tf.matmul(x, self.wc, name='c'))
 
         updated_state = tf.multiply(f, self.cell_state, name='f_cs') + tf.multiply(i, c, name='i_cs')
-        if self.training_config['batchnorm']:
-            updated_output = tf.multiply(o, tf.tanh(self.bn_cs[time_idx](updated_state, self.is_training)))
-        else:
-            updated_output = tf.multiply(o, tf.tanh(updated_state))
+        updated_output = tf.multiply(o, tf.tanh(updated_state))
 
         if mod_layer_config['regularization']['mode'] == 'zoneout':
             state_mask = self.state_zoneout_dist.sample(tf.shape(self.cell_state))

@@ -14,7 +14,7 @@ class FCLayer:
         self.b_shape = (1, self.w_shape[1])
 
         if self.training_config['batchnorm']:
-            self.bn_x = []
+            self.bn_x = get_batchnormalizer()
 
         with tf.variable_scope(self.layer_config['var_scope']):
             w_init_vals, b_init_vals = generate_init_values(self.layer_config['init_config'], self.w_shape, self.b_shape)
@@ -32,11 +32,8 @@ class FCLayer:
     # Returns the output of the layer. If its the output layer, this only returns the activation!
     def create_forward_pass(self, x, mod_layer_config, time_idx):
         if self.training_config['batchnorm']:
-            if len(self.bn_x) == time_idx:
-                self.bn_x.append(get_batchnormalizer())
-            x = self.bn_x[time_idx](x, self.is_training)
+            x = self.bn_x(x, self.is_training)
         return tf.matmul(x, self.w) + self.b
-        #return self.b + tf.matmul(layer_input, self.w)
 
 
 

@@ -45,7 +45,7 @@ class RNN:
             layer_input = x[:, :, seq_idx]
             for layer_idx, layer in enumerate(self.layers, 1):
                 layer_input = layer.create_forward_pass(layer_input, mod_rnn_config['layer_configs'][layer_idx],
-                                                        seq_idx == 0)
+                                                        seq_idx)
 
             outputs.append(layer_input)
         output = tf.stack(outputs, axis=1)
