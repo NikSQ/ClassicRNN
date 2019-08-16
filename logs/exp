@@ -19,14 +19,8 @@ except KeyError:
 
 filename = 'exp'
 runs = 1
-
-layouts = [[40, 40],
-           [50, 50],
-           [60, 60],
-           [70, 70]]
-layout = layouts[task_id]
-
-
+lrs = [.1, .03, .01, .003, .001, .0003]
+lr = lrs[task_id]
 
 
 
@@ -69,8 +63,6 @@ hidden_2_config = {'layer_type': 'lstm',
                                    'i': {'w': 'xavier', 'b': 'all_zero'},
                                    'c': {'w': 'xavier', 'b': 'all_zero'},
                                    'o': {'w': 'xavier', 'b': 'all_zero'}},
-                   'is_recurrent': True,
-                   'is_output': False,
                    'regularization': {'mode': None,
                                       'state_zo_prob': p_state_c[2],
                                       'output_zo_prob': p_out_c[2]}}
@@ -82,20 +74,18 @@ l2_strenghts_c = [0.003, 0.003, 0.003, 0.003, 0.01, 0.01, 0.01, 0.01, 0.03, 0.03
 output_config = {'layer_type': 'fc',
                  'var_scope': 'output_layer',
                  'init_config': {'w': 'xavier', 'b': 'all_zero'},
-                 'is_recurrent': False,
-                 'is_output': True,
                  'regularization': {'mode': None,
                                     'strength': l2_strenghts_c[2]}}
 
-rnn_config = {'layout': [4, layout[0], layout[1], 10],
+rnn_config = {'layout': [4, 45, 45, 10],
               'layer_configs': [input_config, hidden_1_config, hidden_2_config, output_config],
               'gradient_clip_value': .5,
               'output_type': 'classification'}
 
 # learning rates .1  is already too high. look for <= .01
-training_config = {'learning_rate': .005,
-                   'batchnorm_momentum': .50,
-                   'batchnorm': False,
+training_config = {'learning_rate': lr,
+                   'batchnorm_momentum': .0,
+                   'batchnorm': True,
                    'mode': {'name': 'inc_lengths',
                             'in_seq_len': [1, 2, 4, 8, 30],
                             'out_seq_len': [1, 1, 2, 4, 5],
@@ -126,4 +116,6 @@ print('----------------------------')
 #print(result_dicts[0])
 process_results(result_config, result_dicts)
 
-
+# PARAMETER INFO
+# Layout 40-40 was able to memorize dataset without problems. Using 45-45
+# Learning rate (w.o bn): .01 or .003
