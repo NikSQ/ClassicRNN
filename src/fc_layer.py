@@ -24,8 +24,7 @@ class FCLayer:
             self.b = tf.get_variable(name='b', shape=self.b_shape, initializer=b_initializer)
 
             if self.layer_config['regularization']['mode'] == 'l2':
-                self.layer_loss = self.layer_config['regularization']['strength'] * (tf.nn.l2_loss(self.w) + \
-                                                                                     tf.nn.l2_loss(self.b))
+                self.layer_loss = self.layer_config['regularization']['strength'] * tf.nn.l2_loss(self.w)
             else:
                 self.layer_loss = 0
 

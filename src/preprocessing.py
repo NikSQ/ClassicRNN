@@ -2,7 +2,7 @@ import numpy as np
 from src.logging_tools import get_logger
 
 
-def extract_seqs(x, y, seqlens, data_config):
+def extract_seqs(x, y, seqlens, data_config, remove_bias=True):
     logger = get_logger('DataContainer')
     in_seq_len = data_config['in_seq_len']
     seqlens = seqlens.astype(np.int32)
@@ -36,6 +36,7 @@ def extract_seqs(x, y, seqlens, data_config):
 
     n_sequences = sum(len(extraction_range) != 0 for extraction_range in seq_extraction_ranges)
     n_discarded_samples = sum([len(extraction_range) == 0 for extraction_range in seq_extraction_ranges])
+    print(n_discarded_samples)
     x_shape = (n_sequences, x.shape[1], in_seq_len)
     y_shape = (n_sequences, y.shape[1])
     logger.debug("Discarded {} data samples. Obtained {} sequences".format(n_sequences, n_discarded_samples))
@@ -53,6 +54,8 @@ def extract_seqs(x, y, seqlens, data_config):
             end_time[seq_idx] = len(extraction_range) - 1
             seq_idx += 1
     unique, counts = np.unique(np.argmax(y_seqs, axis=1), return_counts=True)
+    if remove_bias is False:
+        return x_seqs, y_seqs, end_time
     n_samples_per_label = np.min(counts)
     n_tot_samples = n_samples_per_label * len(counts)
     x_shape = (n_tot_samples, x.shape[1], in_seq_len)
@@ -73,7 +76,5 @@ def extract_seqs(x, y, seqlens, data_config):
         seq_idx += 1
     unique, counts = np.unique(np.argmax(new_y_seqs, axis=1), return_counts=True)
     return new_x_seqs, new_y_seqs, new_end_time
-
-    return x_seqs, y_seqs, end_time
 
 
