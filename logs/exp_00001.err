@@ -1,13 +1,13 @@
-2019-08-16 15:15:40.335661: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2019-08-16 15:15:40.637476: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
-pciBusID: 0000:85:00.0
-totalMemory: 11.92GiB freeMemory: 11.84GiB
-2019-08-16 15:15:40.637617: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-08-16 15:15:43.303491: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-08-16 15:15:43.303644: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-08-16 15:15:43.303777: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-08-16 15:15:43.305186: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11477 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:85:00.0, compute capability: 3.5)
+2019-08-16 19:50:29.603443: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-08-16 19:50:29.742362: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GTX 1060 6GB major: 6 minor: 1 memoryClockRate(GHz): 1.759
+pciBusID: 0000:03:00.0
+totalMemory: 5.94GiB freeMemory: 5.86GiB
+2019-08-16 19:50:29.742467: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-08-16 19:50:33.220743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-08-16 19:50:33.220878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-08-16 19:50:33.220963: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-08-16 19:50:33.222752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5639 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:03:00.0, compute capability: 6.1)
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
   keepdims=keepdims)
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide
