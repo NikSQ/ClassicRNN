@@ -19,7 +19,7 @@ class Experiment:
     def create_rnn(self, rnn_config, l_data, l_data_config):
         if self.rnn_config is None:
             self.rnn_config = rnn_config
-        set_momentum(self.training_config['batchnorm_momentum'])
+        set_momentum(self.training_config['batchnorm']['momentum'])
         self.rnn = RNN(rnn_config, self.training_config, l_data)
 
         self.rnn.create_training_graph()
@@ -31,8 +31,7 @@ class Experiment:
     def create_modificated_model(self, data_mod_config):
         incremental_idx = data_mod_config['session_idx']
         self.l_data_config['tr']['in_seq_len'] = data_mod_config['in_seq_len'][incremental_idx]
-        self.l_data_config['tr']['out_seq_len'] = data_mod_config['out_seq_len'][incremental_idx]
-        self.l_data_config['tr']['zero_padding'] = data_mod_config['zero_padding'][incremental_idx]
+        self.l_data_config['tr']['max_truncation'] = data_mod_config['max_truncation'][incremental_idx]
         self.data_dict = load_dataset(self.l_data_config)
         l_data = LabeledData(self.l_data_config, self.data_dict)
         self.create_rnn(self.rnn_config, l_data, self.l_data_config)
@@ -55,13 +54,14 @@ class Experiment:
                        'epochs': []}
 
         current_epoch = 0
+        learning_rate = self.training_config['learning_rate']
         for session_idx in range(n_sessions):
             tf.reset_default_graph()
             if self.training_config['mode']['name'] == 'inc_lengths':
                 self.training_config['mode']['session_idx'] = session_idx
                 max_epochs = self.training_config['mode']['max_epochs'][session_idx]
                 min_error = self.training_config['mode']['min_errors'][session_idx]
-                self.create_modificated_model(self.rnn_config, self.l_data_config, self.training_config['mode'])
+                self.create_modificated_model(self.training_config['mode'])
             elif self.training_config['mode']['name'] == 'classic':
                 self.data_dict = load_dataset(self.l_data_config)
 
@@ -87,10 +87,13 @@ class Experiment:
                         if result_dict['tr']['loss'][-1] < min_error:
                             break
 
+                    if (current_epoch + 1) % self.training_config['learning_rate_tau'] == 0:
+                        learning_rate /= 2
+
                     if self.l_data_config['tr']['minibatch_mode']:
                         sess.run(self.l_data.data['tr']['shuffle'])
                     for minibatch_idx in range(self.l_data.data['tr']['n_minibatches']):
-                        sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: self.training_config['learning_rate'],
+                        sess.run(self.rnn.train_op, feed_dict={self.rnn.learning_rate: learning_rate,
                                                                self.l_data.batch_counter: minibatch_idx,
                                                                self.rnn.is_training: True})
                     current_epoch += 1

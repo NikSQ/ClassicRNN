@@ -5,15 +5,15 @@ import numpy as np
 
 
 class FCLayer:
-    def __init__(self, rnn_config, training_config, layer_idx, is_training):
+    def __init__(self, rnn_config, train_config, layer_idx, is_training):
         self.rnn_config = rnn_config
-        self.training_config = training_config
+        self.train_config = train_config
         self.is_training = is_training
         self.layer_config = rnn_config['layer_configs'][layer_idx]
         self.w_shape = (rnn_config['layout'][layer_idx-1], rnn_config['layout'][layer_idx])
         self.b_shape = (1, self.w_shape[1])
 
-        if self.training_config['batchnorm']:
+        if 'fc' in self.train_config['batchnorm']['modes']:
             self.bn_x = get_batchnormalizer()
 
         with tf.variable_scope(self.layer_config['var_scope']):
@@ -30,7 +30,7 @@ class FCLayer:
 
     # Returns the output of the layer. If its the output layer, this only returns the activation!
     def create_forward_pass(self, x, mod_layer_config, time_idx):
-        if self.training_config['batchnorm']:
+        if 'fc' in self.train_config['batchnorm']:
             x = self.bn_x(x, self.is_training)
         return tf.matmul(x, self.w) + self.b
 

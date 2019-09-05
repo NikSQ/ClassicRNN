@@ -4,9 +4,9 @@ from src.tools import generate_init_values
 from src.tools import get_batchnormalizer
 
 class LSTMLayer:
-    def __init__(self, rnn_config, training_config, layer_idx, is_training):
+    def __init__(self, rnn_config, train_config, layer_idx, is_training):
         self.rnn_config = rnn_config
-        self.training_config = training_config
+        self.train_config = train_config
         self.is_training = is_training
         self.layer_idx = layer_idx
         self.layer_config = rnn_config['layer_configs'][layer_idx]
@@ -14,8 +14,9 @@ class LSTMLayer:
                    rnn_config['layout'][layer_idx])
         self.b_shape = (1, self.w_shape[1])
 
-        if self.training_config['batchnorm']:
+        if 'x' in self.train_config['batchnorm']['modes']:
             self.bn_x = []
+        if 'h' in self.train_config['batchnorm']['modes']:
             self.bn_h = []
 
         with tf.variable_scope(self.layer_config['var_scope']):
@@ -63,18 +64,22 @@ class LSTMLayer:
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
 
-        #if self.training_config['batchnorm']:
-            #if len(self.bn_x) == time_idx:
-                #self.bn_x.append(get_batchnormalizer())
-                #self.bn_h.append(get_batchnormalizer())
-            #layer_input = self.bn_x[time_idx](layer_input, self.is_training)
-            #co = self.bn_h[time_idx](self.cell_output, self.is_training)
-        #else:
-            #co = self.cell_output
-        x = tf.concat([layer_input, self.cell_output], axis=1)
+        bn_idx = min(time_idx, self.train_config['batchnorm']['tau'] - 1)
+        if 'x' in self.train_config['batchnorm']['modes']:
+            if len(self.bn_x) == bn_idx:
+                self.bn_x.append(get_batchnormalizer())
+            layer_input = self.bn_x[bn_idx](layer_input, self.is_training)
+        if 'h' in self.train_config['batchnorm']['modes'] and bn_idx > 0:
+            if len(self.bn_h) == bn_idx - 1:
+                self.bn_h.append(get_batchnormalizer())
+            co = self.bn_h[bn_idx - 1](self.cell_output, self.is_training)
+        else:
+            co = self.cell_output
 
-        f = tf.sigmoid(self.bf + tf.matmul(x, self.wf, name='f'))
+        x = tf.concat([layer_input, co], axis=1)
+
         i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
+        f = 1. - i
         o = tf.sigmoid(self.bo + tf.matmul(x, self.wo, name='o'))
         c = tf.tanh(self.bc + tf.matmul(x, self.wc, name='c'))
 
