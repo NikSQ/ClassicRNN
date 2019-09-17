@@ -13,7 +13,13 @@ filenames = {'red_penstroke': '../datasets/mnist_pen_strokes/mnist_pen_stroke_50
              'timit_va_l_0': '../../datasets/timit/va_s10l25_40_0.mat',
              'penstroke_tr': '../datasets/mnist_pen_strokes/mps_full1_tr.mat',
              'penstroke_va': '../datasets/mnist_pen_strokes/mps_full1_va.mat',
-             'penstroke_te': '../datasets/mnist_pen_strokes/mps_full1_te.mat'}
+             'penstroke_te': '../datasets/mnist_pen_strokes/mps_full1_te.mat',
+             'sign_language_tr': '../../datasets/sign_language/sign_language_tr.mat',
+             'sign_language_va': '../../datasets/sign_language/sign_language_va.mat',
+             'sign_language_te': '../../datasets/sign_language/sign_language_te.mat',
+             'syn_dataset_tr': '../../datasets/synthetic/syn_tr.mat',
+             'syn_dataset_va': '../../datasets/synthetic/syn_va.mat',
+             'syn_dataset_te': '../../datasets/synthetic/syn_te.mat'}
 
 
 def load_dataset(l_data_config):
@@ -22,6 +28,10 @@ def load_dataset(l_data_config):
         data_dict = load_penstroke(l_data_config)
     elif entry.startswith('timit'):
         data_dict = load_timit(l_data_config)
+    elif entry.startswith('sign'):
+        data_dict = load_sign_language(l_data_config)
+    elif entry.startswith('syn'):
+        data_dict = load_syn_dataset(l_data_config)
     elif type(entry) is str:
         data_dict = load_single_file(l_data_config)
     else:
@@ -144,4 +154,36 @@ def load_penstroke(l_data_config):
             print(data_key)
             print(data_dict[data_key]['x'].shape)
     return data_dict
+
+
+def load_sign_language(l_data_config):
+    keys = ['tr', 'va', 'te']
+    data_dict = dict()
+    for data_key in keys:
+        if data_key in l_data_config.keys():
+            dataset = loadmat(filenames['sign_language_' + data_key])
+            data_dict[data_key] = dict()
+            data_dict[data_key]['x'], data_dict[data_key]['y'], data_dict[data_key]['end'] = \
+                extract_seqs(dataset['x'], dataset['y'], np.squeeze(dataset['seqlen']).astype(np.int32),
+                             l_data_config[data_key], remove_bias=False)
+            print(data_key)
+            print(data_dict[data_key]['x'].shape)
+    return data_dict
+
+
+def load_syn_dataset(l_data_config):
+    keys = ['tr', 'va', 'te']
+    data_dict = dict()
+    for data_key in keys:
+        if data_key in l_data_config.keys():
+            dataset = loadmat(filenames['syn_dataset_' + data_key])
+            data_dict[data_key] = dict()
+            data_dict[data_key]['x'], data_dict[data_key]['y'], data_dict[data_key]['end'] = \
+                extract_seqs(dataset['x'], dataset['y'], np.squeeze(dataset['seqlen']).astype(np.int32),
+                             l_data_config[data_key], remove_bias=False)
+            print(data_key)
+            print(data_dict[data_key]['x'].shape)
+    return data_dict
+
+
 
