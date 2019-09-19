@@ -1,13 +1,14 @@
-2019-09-06 21:58:24.242164: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2019-09-06 21:58:24.442464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
-pciBusID: 0000:02:00.0
-totalMemory: 11.92GiB freeMemory: 11.84GiB
-2019-09-06 21:58:24.442672: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-09-06 21:58:34.846369: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-09-06 21:58:34.846534: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-09-06 21:58:34.846635: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-09-06 21:58:34.871375: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11477 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:02:00.0, compute capability: 3.5)
+2019-09-13 15:14:05.822388: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-09-13 15:14:05.945036: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:897] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-09-13 15:14:05.945630: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GT 1030 major: 6 minor: 1 memoryClockRate(GHz): 1.468
+pciBusID: 0000:41:00.0
+totalMemory: 1.95GiB freeMemory: 863.06MiB
+2019-09-13 15:14:05.945711: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-09-13 15:14:15.566263: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-09-13 15:14:15.566508: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-09-13 15:14:15.566557: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-09-13 15:14:15.567950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 574 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
   keepdims=keepdims)
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide

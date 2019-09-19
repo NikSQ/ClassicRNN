@@ -1,14 +1,44 @@
-2019-09-06 22:22:07.630088: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2019-09-06 22:22:07.769688: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:897] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
-2019-09-06 22:22:07.770506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: GeForce GTX 1060 6GB major: 6 minor: 1 memoryClockRate(GHz): 1.835
-pciBusID: 0000:01:00.0
-totalMemory: 5.93GiB freeMemory: 5.86GiB
-2019-09-06 22:22:07.770690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-09-06 22:22:12.544396: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-09-06 22:22:12.544613: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-09-06 22:22:12.544785: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-09-06 22:22:12.546288: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5640 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2019-09-16 14:47:42.031310: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-09-16 14:47:42.110447: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:897] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-09-16 14:47:42.110999: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GT 1030 major: 6 minor: 1 memoryClockRate(GHz): 1.468
+pciBusID: 0000:41:00.0
+totalMemory: 1.95GiB freeMemory: 1.11GiB
+2019-09-16 14:47:42.111070: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-09-16 14:47:44.917223: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-09-16 14:47:44.917318: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-09-16 14:47:44.917373: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-09-16 14:47:44.917596: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 213 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
+2019-09-16 14:47:44.918059: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 213.00M (223346688 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.918359: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 191.70M (201012224 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.918637: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 172.53M (180911104 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.918910: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 155.28M (162820096 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.919140: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 139.75M (146538240 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.919342: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 125.77M (131884544 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.919572: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 113.20M (118696192 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.919778: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 101.88M (106826752 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.919977: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 91.69M (96144128 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.920182: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 82.52M (86529792 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.920379: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 74.27M (77876992 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.920604: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 66.84M (70089472 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.920830: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 60.16M (63080704 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.921028: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 54.14M (56772864 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.921239: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 48.73M (51095808 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.921449: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 43.86M (45986304 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.921681: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 39.47M (41387776 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.921895: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 35.52M (37249024 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.922099: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 31.97M (33524224 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.922300: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 28.77M (30171904 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.922489: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 25.90M (27154944 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.922712: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 23.31M (24439552 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.923027: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 20.98M (21995776 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.923223: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 18.88M (19796224 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.923429: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 16.99M (17816832 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.923639: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 15.29M (16035328 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.923909: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 13.76M (14432000 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:44.924153: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 12.39M (12988928 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:45.686715: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 201.85M (211656448 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-09-16 14:47:45.687070: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 201.85M (211656448 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
   keepdims=keepdims)
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide

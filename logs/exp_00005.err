@@ -1,13 +1,191 @@
-2019-09-06 22:24:12.535192: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2019-09-06 22:24:12.674054: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: GeForce GTX 1060 6GB major: 6 minor: 1 memoryClockRate(GHz): 1.759
-pciBusID: 0000:03:00.0
-totalMemory: 5.94GiB freeMemory: 5.86GiB
-2019-09-06 22:24:12.674207: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-09-06 22:24:17.530947: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-09-06 22:24:17.531158: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-09-06 22:24:17.531262: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-09-06 22:24:17.533107: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5639 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:03:00.0, compute capability: 6.1)
+2019-09-16 14:47:41.843319: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-09-16 14:47:41.986079: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:897] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-09-16 14:47:41.986639: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GT 1030 major: 6 minor: 1 memoryClockRate(GHz): 1.468
+pciBusID: 0000:41:00.0
+totalMemory: 1.95GiB freeMemory: 1.14GiB
+2019-09-16 14:47:41.986713: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-09-16 14:47:44.886186: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-09-16 14:47:44.886440: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-09-16 14:47:44.886491: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-09-16 14:47:44.887727: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 706 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
+2019-09-16 14:47:47.951481: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:47.956826: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:47.963811: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.051561: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.055441: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.064394: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.069807: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.076097: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.080027: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.085610: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.091573: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.097558: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.106748: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.111030: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.116791: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.124411: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.128450: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.133082: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.138067: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.144189: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.148137: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.152700: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.157440: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.164430: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.168617: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.173174: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.177650: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.185715: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.189563: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.193836: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.197984: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.206817: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.210615: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.215806: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.223460: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.230561: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.235156: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.239518: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.245471: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.250887: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.254388: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.258138: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.265065: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.268923: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.274136: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.279670: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.285409: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.289714: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.293206: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.297131: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.305097: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.310253: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.314583: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.323251: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.327588: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.332684: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.337960: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.346265: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.349848: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.353073: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.358221: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.364226: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.367667: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.373321: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.378511: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.383952: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.387883: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.392236: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.395999: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.404974: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.408860: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.413392: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.417731: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.422913: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.426559: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.430944: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.434982: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.439536: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.446237: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.450124: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.454619: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.459489: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.465382: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.468993: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.473929: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.478465: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.484293: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.488850: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.492307: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.495390: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.499396: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.507844: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.511215: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.515942: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.522971: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.527239: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.532408: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.538175: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.544162: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.548910: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.552905: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.556780: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.563259: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.567336: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.571047: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.576368: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.580313: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.585613: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.591352: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.594526: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.598810: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.607385: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.611591: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.615311: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.619827: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.624895: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.628218: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.632744: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.636679: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.642862: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.647222: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.650324: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.654513: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.659250: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.664826: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.667968: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.671402: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.675291: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.678846: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.686036: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.690336: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.695109: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.699494: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.708578: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.712550: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.718162: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.724454: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.728648: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.733459: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.737239: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.743074: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.747349: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.751076: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.754991: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.759235: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.766469: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.774622: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.779393: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.786060: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.789722: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.794563: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.799289: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.807333: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.812040: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.815555: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.819005: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.825399: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.831115: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.837601: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.847577: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.851112: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.854733: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.859006: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.866521: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.871345: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.876471: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.883132: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.887125: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.893075: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.897162: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.905766: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.910483: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.914551: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.918866: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.926043: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.930755: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2019-09-16 14:47:48.935625: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
   keepdims=keepdims)
 /clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide
