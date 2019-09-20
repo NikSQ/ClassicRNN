@@ -18,37 +18,37 @@ except KeyError:
     task_id = 0
 
 filename = 'exp'
-runs = 1
-lr = .01
-lr_tau = 500
+runs = 3
+lr = .002
+lr_tau = 1000
 
-p_state_c = .15
-p_out_c = .02
+p_state_c = .0
+p_out_c = .0
 #batchnorm = ['none', 'fc', 'x+fc', 'h+fc', 'x+h+fc'][task_id]
-layout = [[30, 30], [35, 35], [40, 40], [45,45],[50,50],[55,55]][task_id]
+layout = [[20, 20], [30, 30], [40, 40], [50,50],[60,60], [70, 70], [80, 80]][task_id]
 
 bn_mode = []
 l2 = .03
-epochs = 5000
+epochs = 4000
 
 
-dataset = 'penstroke'
+dataset = 'sign_dataset'
 timit_dataset = ['timit_tr_small_0', 'timit_va_small_0']
 timit_s_dataset = ['timit_tr_s_0', 'timit_va_s_0']
 timit_l_dataset = ['timit_tr_l_0', 'timit_va_l_0']
 # timit: 13 -> 54
 # penstroke: 4 -> 10
 labelled_data_config = {'dataset': dataset,
-                        'tr': {'in_seq_len': 40,
-                               'max_truncation': 5,
+                        'tr': {'in_seq_len': 70,
+                               'max_truncation': 10,
                                'minibatch_mode': True,
                                'minibatch_size': 300},
-                        'va': {'in_seq_len': 40,
-                               'max_truncation': 5,
+                        'va': {'in_seq_len': 70,
+                               'max_truncation': 10,
                                'minibatch_mode': True,
                                'minibatch_size': 500},
-                        'te': {'in_seq_len': 40,
-                               'max_truncation': 5,
+                        'te': {'in_seq_len': 70,
+                               'max_truncation': 10,
                                'minibatch_mode': True,
                                'minibatch_size': 500}}
 
@@ -75,7 +75,7 @@ output_config = {'layer_type': 'fc',
                  'regularization': {'mode': 'l2',
                                     'strength': l2}}
 
-rnn_config = {'layout': [4, layout[0], layout[1], 10],
+rnn_config = {'layout': [22, layout[0], layout[1], 96],
               'layer_configs': [input_config, hidden_1_config, hidden_2_config, output_config],
               'gradient_clip_value': .5,
               'output_type': 'classification'}

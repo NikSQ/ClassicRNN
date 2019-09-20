@@ -1,0 +1,69 @@
+{'learning_rate_tau': 1000, 'batchnorm': {'tau': 5, 'momentum': 0.98, 'modes': []}, 'task_id': 6, 'mode': {'name': 'classic', 'min_error': 0, 'max_epochs': 4000}, 'learning_rate': 0.002}
+{'tr': {'minibatch_mode': True, 'minibatch_size': 300, 'in_seq_len': 70, 'max_truncation': 10}, 'va': {'minibatch_mode': True, 'minibatch_size': 500, 'in_seq_len': 70, 'max_truncation': 10}, 'dataset': 'sign_dataset', 'te': {'minibatch_mode': True, 'minibatch_size': 500, 'in_seq_len': 70, 'max_truncation': 10}}
+{'output_type': 'classification', 'layer_configs': [{'layer_type': 'input'}, {'init_config': {'c': {'w': 'xavier', 'b': 'all_zero'}, 'o': {'w': 'xavier', 'b': 'all_zero'}, 'i': {'w': 'xavier', 'b': 'all_zero'}, 'f': {'w': 'xavier', 'b': 'all_one'}}, 'regularization': {'output_zo_prob': 0.0, 'state_zo_prob': 0.0, 'mode': 'zoneout'}, 'layer_type': 'lstm', 'var_scope': 'lstm_0'}, {'regularization': {'output_zo_prob': 0.0, 'state_zo_prob': 0.0, 'mode': 'zoneout'}, 'var_scope': 'lstm_1', 'layer_type': 'lstm', 'init_config': {'c': {'w': 'xavier', 'b': 'all_zero'}, 'o': {'w': 'xavier', 'b': 'all_zero'}, 'i': {'w': 'xavier', 'b': 'all_zero'}, 'f': {'w': 'xavier', 'b': 'all_one'}}}, {'regularization': {'mode': 'l2', 'strength': 0.03}, 'var_scope': 'output_layer', 'layer_type': 'fc', 'init_config': {'w': 'xavier', 'b': 'all_zero'}}], 'gradient_clip_value': 0.5, 'layout': [22, 80, 80, 96]}
+{'include_pred': False, 'include_out': False, 'calc_performance_every': 1}
+
+=============================
+CONFIG FILE
+
+RNN CONFIG
+{'batchnorm': {'modes': [], 'momentum': 0.98, 'tau': 5},
+ 'learning_rate': 0.002,
+ 'learning_rate_tau': 1000,
+ 'mode': {'max_epochs': 4000, 'min_error': 0, 'name': 'classic'},
+ 'task_id': 6}
+
+DATA CONFIG
+{'dataset': 'sign_dataset',
+ 'te': {'in_seq_len': 70,
+        'max_truncation': 10,
+        'minibatch_mode': True,
+        'minibatch_size': 500},
+ 'tr': {'in_seq_len': 70,
+        'max_truncation': 10,
+        'minibatch_mode': True,
+        'minibatch_size': 300},
+ 'va': {'in_seq_len': 70,
+        'max_truncation': 10,
+        'minibatch_mode': True,
+        'minibatch_size': 500}}
+
+TRAINING CONFIG
+{'gradient_clip_value': 0.5,
+ 'layer_configs': [{'layer_type': 'input'},
+                   {'init_config': {'c': {'b': 'all_zero', 'w': 'xavier'},
+                                    'f': {'b': 'all_one', 'w': 'xavier'},
+                                    'i': {'b': 'all_zero', 'w': 'xavier'},
+                                    'o': {'b': 'all_zero', 'w': 'xavier'}},
+                    'layer_type': 'lstm',
+                    'regularization': {'mode': 'zoneout',
+                                       'output_zo_prob': 0.0,
+                                       'state_zo_prob': 0.0},
+                    'var_scope': 'lstm_0'},
+                   {'init_config': {'c': {'b': 'all_zero', 'w': 'xavier'},
+                                    'f': {'b': 'all_one', 'w': 'xavier'},
+                                    'i': {'b': 'all_zero', 'w': 'xavier'},
+                                    'o': {'b': 'all_zero', 'w': 'xavier'}},
+                    'layer_type': 'lstm',
+                    'regularization': {'mode': 'zoneout',
+                                       'output_zo_prob': 0.0,
+                                       'state_zo_prob': 0.0},
+                    'var_scope': 'lstm_1'},
+                   {'init_config': {'b': 'all_zero', 'w': 'xavier'},
+                    'layer_type': 'fc',
+                    'regularization': {'mode': 'l2', 'strength': 0.03},
+                    'var_scope': 'output_layer'}],
+ 'layout': [22, 80, 80, 96],
+ 'output_type': 'classification'}
+==============================
+
+
+32
+tr
+(1468, 22, 70)
+6
+va
+(394, 22, 70)
+14
+te
+(651, 22, 70)
