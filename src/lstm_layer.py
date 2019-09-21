@@ -64,19 +64,21 @@ class LSTMLayer:
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)
 
-        bn_idx = min(time_idx, self.train_config['batchnorm']['tau'] - 1)
-        if 'x' in self.train_config['batchnorm']['modes']:
-            if len(self.bn_x) == bn_idx:
-                self.bn_x.append(get_batchnormalizer())
-            layer_input = self.bn_x[bn_idx](layer_input, self.is_training)
-        if 'h' in self.train_config['batchnorm']['modes'] and bn_idx > 0:
-            if len(self.bn_h) == bn_idx - 1:
-                self.bn_h.append(get_batchnormalizer())
-            co = self.bn_h[bn_idx - 1](self.cell_output, self.is_training)
-        else:
-            co = self.cell_output
+        co = self.cell_output
+        if self.train_config['batchnorm']['type'] == 'batch':
+            bn_idx = min(time_idx, self.train_config['batchnorm']['tau'] - 1)
+            if 'x' in self.train_config['batchnorm']['modes']:
+                if len(self.bn_x) == bn_idx:
+                    self.bn_x.append(get_batchnormalizer())
+                layer_input = self.bn_x[bn_idx](layer_input, self.is_training)
+            if 'h' in self.train_config['batchnorm']['modes'] and bn_idx > 0:
+                if len(self.bn_h) == bn_idx - 1:
+                    self.bn_h.append(get_batchnormalizer())
+                co = self.bn_h[bn_idx - 1](self.cell_output, self.is_training)
 
         x = tf.concat([layer_input, co], axis=1)
+        if self.train_config['batchnorm']['type'] == 'layer':
+            x = tf.contrib.layers.layer_norm(x)
 
         i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
         f = 1. - i
