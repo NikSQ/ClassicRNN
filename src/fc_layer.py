@@ -32,9 +32,11 @@ class FCLayer:
     def create_forward_pass(self, x, mod_layer_config, time_idx):
         if self.train_config['batchnorm']['type'] == 'batch' and 'fc' in self.train_config['batchnorm']:
             x = self.bn_x(x, self.is_training)
-        elif self.train_config['batchnorm']['type'] == 'layer':
-            x = tf.contrib.layers.layer_norm(x)
-        return tf.matmul(x, self.w) + self.b
+        act = tf.matmul(x, self.w) + self.b
+        if self.train_config['batchnorm']['type'] != 'layer':
+            return tf.contrib.layers.layer_norm(act)
+        else:
+            return act
 
 
 

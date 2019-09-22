@@ -77,13 +77,19 @@ class LSTMLayer:
                 co = self.bn_h[bn_idx - 1](self.cell_output, self.is_training)
 
         x = tf.concat([layer_input, co], axis=1)
-        if self.train_config['batchnorm']['type'] == 'layer':
-            x = tf.contrib.layers.layer_norm(x)
 
-        i = tf.sigmoid(self.bi + tf.matmul(x, self.wi, name='i'))
+        i_act = self.bi + tf.matmul(x, self.wi, name='i')
+        o_act = self.bo + tf.matmul(x, self.wo, name='o')
+        c_act = self.bc + tf.matmul(x, self.wc, name='c')
+        if self.train_config['batchnorm']['type'] == 'layer':
+            i_act = tf.contrib.layers.layer_norm(i_act)
+            o_act = tf.contrib.layers.layer_norm(o_act)
+            c_act = tf.contrib.layers.layer_norm(c_act)
+
+        i = tf.sigmoid(i_act)
         f = 1. - i
-        o = tf.sigmoid(self.bo + tf.matmul(x, self.wo, name='o'))
-        c = tf.tanh(self.bc + tf.matmul(x, self.wc, name='c'))
+        o = tf.sigmoid(o_act)
+        c = tf.tanh(c_act)
 
         updated_state = tf.multiply(f, self.cell_state, name='f_cs') + tf.multiply(i, c, name='i_cs')
         updated_output = tf.multiply(o, tf.tanh(updated_state))
