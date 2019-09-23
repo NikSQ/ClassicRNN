@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "../exps/sitest.py", line 28, in <module>
-    layout = [[20, 20], [30, 30], [40, 40], [50,50],[60,60], [70, 70], [80, 80]][task_id]
-IndexError: list index out of range
