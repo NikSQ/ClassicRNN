@@ -1,4 +1,15 @@
-  File "../exps/sytest.py", line 30
-    bn_mode = []
-          ^
-SyntaxError: invalid syntax
+2019-09-23 21:27:06.170588: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-09-23 21:27:06.362266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:03:00.0
+totalMemory: 10.92GiB freeMemory: 10.76GiB
+2019-09-23 21:27:06.362409: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-09-23 21:27:17.801783: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-09-23 21:27:17.801893: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-09-23 21:27:17.801958: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-09-23 21:27:17.804088: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10407 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:03:00.0, compute capability: 6.1)
+2019-09-23 21:28:13.391302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-09-23 21:28:13.391673: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-09-23 21:28:13.391729: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-09-23 21:28:13.391772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-09-23 21:28:13.391992: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10407 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:03:00.0, compute capability: 6.1)
