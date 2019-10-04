@@ -2,20 +2,16 @@ import numpy as np
 from src.logging_tools import get_logger
 
 
-def extract_seqs(x, y, seqlens, data_config, remove_bias=True):
-    logger = get_logger('DataContainer')
+def extract_seqs(x, y, seqlens, data_config, remove_bias=False):
     in_seq_len = data_config['in_seq_len']
     seqlens = seqlens.astype(np.int32)
 
     if x.shape[0] != y.shape[0]:
-        logger.critical("The numbers of samples in X ({}) does not match the number of samples in Y({})"
-                        .format(x.shape[0], y.shape[0]))
         raise Exception("samples in X != samples in Y")
 
     # Iterate over each sample
     n_samples = x.shape[0]
     raw_sample_length = x.shape[2]
-    logger.debug("Shaping {} data samples. InSeqLen: {}".format(n_samples, in_seq_len))
 
     # Iterate over all samples and figure out how many sequences one can extract
     seq_extraction_ranges = []
@@ -36,10 +32,8 @@ def extract_seqs(x, y, seqlens, data_config, remove_bias=True):
 
     n_sequences = sum(len(extraction_range) != 0 for extraction_range in seq_extraction_ranges)
     n_discarded_samples = sum([len(extraction_range) == 0 for extraction_range in seq_extraction_ranges])
-    print(n_discarded_samples)
     x_shape = (n_sequences, x.shape[1], in_seq_len)
     y_shape = (n_sequences, y.shape[1])
-    logger.debug("Discarded {} data samples. Obtained {} sequences".format(n_sequences, n_discarded_samples))
 
     x_seqs = np.zeros(x_shape)
     y_seqs = np.zeros(y_shape)
