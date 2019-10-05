@@ -1,20 +1,22 @@
-2019-10-04 16:35:11.022382: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
-2019-10-04 16:35:11.359317: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
-pciBusID: 0000:d8:00.0
-totalMemory: 10.73GiB freeMemory: 10.53GiB
-2019-10-04 16:35:11.359543: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-10-04 16:35:29.446631: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-10-04 16:35:29.446789: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-10-04 16:35:29.446886: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-10-04 16:35:29.450356: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10166 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:d8:00.0, compute capability: 7.5)
-2019-10-04 17:28:53.494421: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-10-04 17:28:53.495035: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-10-04 17:28:53.495133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-10-04 17:28:53.495289: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-10-04 17:28:53.495541: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10166 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:d8:00.0, compute capability: 7.5)
-2019-10-04 18:21:33.925148: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-10-04 18:21:33.925690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-10-04 18:21:33.925817: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-10-04 18:21:33.925902: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-10-04 18:21:33.926091: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10166 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:d8:00.0, compute capability: 7.5)
+2019-10-05 14:54:13.436103: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-10-05 14:54:13.514736: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:897] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-10-05 14:54:13.515279: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GT 1030 major: 6 minor: 1 memoryClockRate(GHz): 1.468
+pciBusID: 0000:41:00.0
+totalMemory: 1.95GiB freeMemory: 717.69MiB
+2019-10-05 14:54:13.515342: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-10-05 14:54:15.183505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-05 14:54:15.183682: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-10-05 14:54:15.183731: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-10-05 14:54:15.185377: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 328 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
+2019-10-05 14:54:15.189351: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 328.69M (344653824 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-10-05 14:54:15.189635: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 295.82M (310188544 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-10-05 14:54:15.189856: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 266.24M (279169792 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-10-05 14:54:15.190229: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 239.61M (251252992 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-10-05 14:54:15.190456: E tensorflow/stream_executor/cuda/cuda_driver.cc:903] failed to allocate 215.65M (226127872 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+2019-10-05 16:01:57.262921: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-10-05 16:01:57.265979: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-05 16:01:57.266040: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-10-05 16:01:57.266093: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-10-05 16:01:57.266264: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 328 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
+slurmstepd-capri: error: *** JOB 355879 ON capri CANCELLED AT 2019-10-05T16:30:24 ***

@@ -1,20 +1,8 @@
-2019-10-04 16:55:25.393151: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2019-10-04 16:55:25.628995: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
-pciBusID: 0000:84:00.0
-totalMemory: 11.92GiB freeMemory: 11.84GiB
-2019-10-04 16:55:25.629183: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-10-04 16:55:31.468187: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-10-04 16:55:31.468316: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-10-04 16:55:31.468403: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-10-04 16:55:31.470120: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11477 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:84:00.0, compute capability: 3.5)
-2019-10-04 20:16:42.287326: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-10-04 20:16:42.287761: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-10-04 20:16:42.287902: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-10-04 20:16:42.288041: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-10-04 20:16:42.288290: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11477 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:84:00.0, compute capability: 3.5)
-2019-10-04 23:37:28.511131: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2019-10-04 23:37:28.511640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2019-10-04 23:37:28.511720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2019-10-04 23:37:28.511857: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2019-10-04 23:37:28.512095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11477 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:84:00.0, compute capability: 3.5)
+2019-10-05 14:59:52.583041: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-10-05 14:59:52.826943: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2019-10-05 14:59:52.831412: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: nina
+2019-10-05 14:59:52.831579: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: nina
+2019-10-05 14:59:52.831782: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 410.104.0
+2019-10-05 14:59:52.831885: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 410.104.0
+2019-10-05 14:59:52.831941: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 410.104.0
+slurmstepd-nina: error: *** JOB 355882 ON nina CANCELLED AT 2019-10-05T16:30:24 ***
