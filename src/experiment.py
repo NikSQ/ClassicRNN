@@ -98,7 +98,10 @@ class Experiment:
                                                                self.rnn.is_training: True})
                     current_epoch += 1
                     # print(sess.run(self.rnn.gradients, feed_dict={self.rnn.labelled_data.is_validation: False}))
-                model_saver.save(sess, temp_model_path)
+                if session_idx != n_sessions - 1:
+                    model_saver.save(sess, temp_model_path)
+                elif self.info_config['save_model']['enabled']:
+                    model_saver.save(sess, self.info_config['save_model']['path'])
         return result_dict
 
     def compute_performance(self, sess, result_dict, epoch):

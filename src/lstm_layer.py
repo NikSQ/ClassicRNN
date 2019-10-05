@@ -20,16 +20,12 @@ class LSTMLayer:
             self.bn_h = []
 
         with tf.variable_scope(self.layer_config['var_scope']):
-            wf_init_vals, bf_init_vals = generate_init_values(self.layer_config['init_config']['f'],
-                                                              self.w_shape, self.b_shape)
             wi_init_vals, bi_init_vals = generate_init_values(self.layer_config['init_config']['i'],
                                                               self.w_shape, self.b_shape)
             wc_init_vals, bc_init_vals = generate_init_values(self.layer_config['init_config']['c'],
                                                               self.w_shape, self.b_shape)
             wo_init_vals, bo_init_vals = generate_init_values(self.layer_config['init_config']['o'],
                                                               self.w_shape, self.b_shape)
-            wf_initializer = tf.constant_initializer(wf_init_vals)
-            bf_initializer = tf.constant_initializer(bf_init_vals)
             wi_initializer = tf.constant_initializer(wi_init_vals)
             bi_initializer = tf.constant_initializer(bi_init_vals)
             wc_initializer = tf.constant_initializer(wc_init_vals)
@@ -37,8 +33,6 @@ class LSTMLayer:
             wo_initializer = tf.constant_initializer(wo_init_vals)
             bo_initializer = tf.constant_initializer(bo_init_vals)
 
-            self.wf = tf.get_variable(name='wf', shape=self.w_shape, initializer=wf_initializer)
-            self.bf = tf.get_variable(name='bf', shape=self.b_shape, initializer=bf_initializer)
             self.wi = tf.get_variable(name='wi', shape=self.w_shape, initializer=wi_initializer)
             self.bi = tf.get_variable(name='bi', shape=self.b_shape, initializer=bi_initializer)
             self.wc = tf.get_variable(name='wc', shape=self.w_shape, initializer=wc_initializer)
