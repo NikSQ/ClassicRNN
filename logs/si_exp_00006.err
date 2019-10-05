@@ -1,0 +1,20 @@
+2019-10-04 16:55:14.753993: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-10-04 16:55:14.901091: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GTX 1060 6GB major: 6 minor: 1 memoryClockRate(GHz): 1.7845
+pciBusID: 0000:03:00.0
+totalMemory: 5.94GiB freeMemory: 5.86GiB
+2019-10-04 16:55:14.901203: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-10-04 16:55:22.711318: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-04 16:55:22.711473: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-10-04 16:55:22.711561: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-10-04 16:55:22.713621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5639 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:03:00.0, compute capability: 6.1)
+2019-10-04 19:23:19.936664: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-10-04 19:23:19.936993: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-04 19:23:19.937053: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-10-04 19:23:19.937097: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-10-04 19:23:19.937232: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5639 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:03:00.0, compute capability: 6.1)
+2019-10-04 21:51:35.124011: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2019-10-04 21:51:35.124473: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-10-04 21:51:35.124532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2019-10-04 21:51:35.124568: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2019-10-04 21:51:35.124701: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5639 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:03:00.0, compute capability: 6.1)
