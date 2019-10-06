@@ -1,0 +1,120 @@
+import sys
+import os
+import tensorflow as tf
+import numpy as np
+import copy
+
+sys.path.append('../')
+
+from src.experiment import Experiment
+from src.tools import process_results
+
+
+try:
+    task_id = int(os.environ['SLURM_ARRAY_TASK_ID'])
+except KeyError:
+    print('NO SLURM TASK ID FOUND')
+    print('Using ID 0 instead')
+    task_id = 0
+
+filename = 'si_exp'
+runs = 3
+lr = .0005
+lr_tau = 1000
+p_state_c = .0
+p_out_c = .0
+#batchnorm = ['none', 'fc', 'x+fc', 'h+fc', 'x+h+fc'][task_id]
+layout = [[40, 40], [50, 50], [60, 60], [70, 70], [80, 80], [90, 90], [100, 100]][task_id]
+norm_type = 'none'
+
+bn_mode = []
+l2 = .0
+epochs = 2000
+
+
+dataset = 'sign_dataset'
+timit_dataset = ['timit_tr_small_0', 'timit_va_small_0']
+timit_s_dataset = ['timit_tr_s_0', 'timit_va_s_0']
+timit_l_dataset = ['timit_tr_l_0', 'timit_va_l_0']
+# timit: 13 -> 54
+# penstroke: 4 -> 10
+labelled_data_config = {'dataset': dataset,
+                        'remove_bias': False,
+                        'tr': {'in_seq_len': 70,
+                               'max_truncation': 10,
+                               'minibatch_mode': True,
+                               'minibatch_size': 200},
+                        'va': {'in_seq_len': 70,
+                               'max_truncation': 10,
+                               'minibatch_mode': True,
+                               'minibatch_size': 200},
+                        'te': {'in_seq_len': 70,
+                               'max_truncation': 10,
+                               'minibatch_mode': True,
+                               'minibatch_size': 200}}
+
+input_config = {'layer_type': 'input'}
+
+f_init = [{'w': 'xavier', 'b': 'all_one'}, {'w': 'xavier', 'b': 'all_one'}, {'w': 'all_zero', 'b': 'all_zero'}, {'w': 'xavier', 'b': 'all_zero'}]
+
+
+hidden_2_config = {'layer_type': 'lstm',
+                   'var_scope': 'lstm_1',
+                   'init_config': {'f': f_init[0],
+                                   'i': {'w': 'xavier', 'b': 'all_zero'},
+                                   'c': {'w': 'xavier', 'b': 'all_zero'},
+                                   'o': {'w': 'xavier', 'b': 'all_zero'}},
+                   'regularization': {'mode': 'zoneout',
+                                      'state_zo_prob': p_state_c,
+                                      'output_zo_prob': p_out_c}}
+hidden_1_config = copy.deepcopy(hidden_2_config)
+hidden_1_config['var_scope'] = 'lstm_0'
+
+output_config = {'layer_type': 'fc',
+                 'var_scope': 'output_layer',
+                 'init_config': {'w': 'xavier', 'b': 'all_zero'},
+                 'regularization': {'mode': 'l2',
+                                    'strength': l2}}
+
+rnn_config = {'layout': [22, layout[0], layout[1], 96],
+              'layer_configs': [input_config, hidden_1_config, hidden_2_config, output_config],
+              'gradient_clip_value': .5,
+              'output_type': 'classification'}
+
+# learning rates .1  is already too high. look for <= .01
+training_config = {'learning_rate': lr,
+                   'learning_rate_tau': lr_tau,
+                   'batchnorm': {'modes': bn_mode,
+                                 'momentum': .98,
+                                 'type': norm_type,
+                                 'tau': 5},
+                   'mode': {'name': 'inc_lengths',
+                            'in_seq_len': [20, 30, 50, 70],
+                            'max_truncation': [60, 50, 30, 10], 
+                            'min_errors': [0, 0, 0, 0, 0.],
+                            'max_epochs': [50, 250, 700, 2000]},
+                   'task_id': task_id}
+training_config['mode'] = {'name': 'classic', 'min_error': 0, 'max_epochs': epochs}
+
+info_config = {'calc_performance_every': 1,
+               'include_pred': False,
+               'include_out': False,
+               'save_model': {'path': 'si_model', 'enabled': False}}
+
+result_config = {'save_results': True,
+                 'filename': '../nr/' + filename + '_' + str(task_id),
+                 'plot_results': False,
+                 'print_final_stats': True}
+
+result_dicts = []
+print(training_config)
+print(labelled_data_config)
+print(rnn_config)
+print(info_config)
+for run in range(runs):
+    experiment = Experiment(rnn_config, labelled_data_config, training_config, info_config)
+    result_dicts.append(experiment.train())
+print('----------------------------')
+#print(result_dicts[0])
+process_results(result_config, result_dicts)
+
