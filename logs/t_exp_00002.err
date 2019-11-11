@@ -1,7 +1,13 @@
-2019-10-15 16:59:59.997440: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2019-10-15 17:00:00.908722: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2019-10-15 17:00:00.908906: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rocco
-2019-10-15 17:00:00.908977: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rocco
-2019-10-15 17:00:00.909107: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 410.104.0
-2019-10-15 17:00:00.909198: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 410.104.0
-2019-10-15 17:00:00.909302: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 410.104.0
+2019-11-07 21:51:08.755847: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-11-07 21:51:08.763051: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2019-11-07 21:51:08.763146: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: capri
+2019-11-07 21:51:08.763177: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: capri
+2019-11-07 21:51:08.763254: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 410.104.0
+2019-11-07 21:51:08.763299: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 410.104.0
+2019-11-07 21:51:08.763324: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 410.104.0
+Traceback (most recent call last):
+  File "../exps/ttest.py", line 119, in <module>
+    result_dicts.append(experiment.train())
+  File "../src/experiment.py", line 101, in train
+    elif self.info_config['save_model']['enabled']:
+TypeError: 'bool' object is not subscriptable

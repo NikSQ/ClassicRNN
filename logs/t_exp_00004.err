@@ -1,8 +1,13 @@
-2019-10-15 16:59:58.603840: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
-2019-10-15 16:59:58.631281: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2019-10-15 16:59:58.633147: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: nina
-2019-10-15 16:59:58.633219: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: nina
-2019-10-15 16:59:58.633336: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 410.104.0
-2019-10-15 16:59:58.633424: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 410.104.0
-2019-10-15 16:59:58.633477: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 410.104.0
-slurmstepd-nina: error: *** JOB 368382 ON nina CANCELLED AT 2019-10-20T16:59:56 DUE TO TIME LIMIT ***
+2019-11-07 21:51:10.230236: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-11-07 21:51:10.236003: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2019-11-07 21:51:10.236150: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: gruselglatz
+2019-11-07 21:51:10.236200: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: gruselglatz
+2019-11-07 21:51:10.236295: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 410.104.0
+2019-11-07 21:51:10.236355: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 410.104.0
+2019-11-07 21:51:10.236390: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 410.104.0
+Traceback (most recent call last):
+  File "../exps/ttest.py", line 119, in <module>
+    result_dicts.append(experiment.train())
+  File "../src/experiment.py", line 101, in train
+    elif self.info_config['save_model']['enabled']:
+TypeError: 'bool' object is not subscriptable

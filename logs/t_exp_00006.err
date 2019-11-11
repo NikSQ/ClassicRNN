@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "../exps/timit_test.py", line 111, in <module>
-    experiment = Experiment()
-TypeError: __init__() missing 4 required positional arguments: 'rnn_config', 'l_data_config', 'training_config', and 'info_config'
