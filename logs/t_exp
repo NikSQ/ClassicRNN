@@ -19,7 +19,7 @@ except KeyError:
 
 filename = 't_exp'
 runs = 3
-lr = .001
+lr = .0001
 lr_tau = 2000
 layout = [[50, 50], [60, 60], [70, 70], [80, 80], [90, 90], [100, 100]][task_id]
 norm_type = 'none'
@@ -100,7 +100,7 @@ training_config['mode'] = {'name': 'classic', 'min_error': 0, 'max_epochs': epoc
 info_config = {'calc_performance_every': 1,
                'include_pred': False,
                'include_out': False,
-               'save_model': {'enabled': False, 'path': 't_model'}}
+               'save_model': {'enabled': True, 'path': '../tr_models/t_model' + str(task_id)}}
 
 result_config = {'save_results': True,
                  'filename': '../nr/' + filename + '_' + str(task_id),
@@ -113,6 +113,8 @@ print(labelled_data_config)
 print(rnn_config)
 print(info_config)
 for run in range(runs):
+    if run > 0:
+        info_config['save_model'] = False
     experiment = Experiment(rnn_config, labelled_data_config, training_config, info_config)
     result_dicts.append(experiment.train())
 print('----------------------------')
