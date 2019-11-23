@@ -1,0 +1,2 @@
+/var/lib/slurm-llnl/slurmd/job411849/slurm_script: line 178: 23738 Killed                  python3 ../exps/ttest.py
+slurmstepd-rocco: error: Detected 1 oom-kill event(s) in step 411849.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
