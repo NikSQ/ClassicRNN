@@ -1,2 +1,8 @@
-/var/lib/slurm-llnl/slurmd/job411836/slurm_script: line 178: 19388 Killed                  python3 ../exps/ttest.py
-slurmstepd-rocco: error: Detected 1 oom-kill event(s) in step 411836.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+slurmstepd-nina: error: *** JOB 458968 ON nina CANCELLED AT 2019-11-23T15:33:39 ***
+Traceback (most recent call last):
+  File "../exps/ttest.py", line 117, in <module>
+    result_dicts.append(experiment.train())
+  File "../src/experiment.py", line 86, in train
+    result_dict['va']['loss'][-1]))
+OSError: [Errno 5] Input/output error
+rm: write error: Input/output error

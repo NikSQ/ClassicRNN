@@ -1,2 +1,14 @@
-/var/lib/slurm-llnl/slurmd/job411847/slurm_script: line 178: 23042 Killed                  python3 ../exps/ttest.py
-slurmstepd-rocco: error: Detected 1 oom-kill event(s) in step 411847.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+2019-11-23 15:35:32.347474: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2019-11-23 15:35:32.360766: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2019-11-23 15:35:32.360839: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: zaphod
+2019-11-23 15:35:32.360889: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: zaphod
+2019-11-23 15:35:32.360959: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 410.104.0
+2019-11-23 15:35:32.361018: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 410.104.0
+2019-11-23 15:35:32.361060: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 410.104.0
+Traceback (most recent call last):
+  File "../exps/ttest.py", line 117, in <module>
+    result_dicts.append(experiment.train())
+  File "../src/experiment.py", line 86, in train
+    result_dict['va']['loss'][-1]))
+OSError: [Errno 5] Input/output error
+rm: write error: Input/output error
