@@ -4,14 +4,19 @@ from src.tools import generate_init_values
 from src.tools import get_batchnormalizer
 
 class LSTMLayer:
-    def __init__(self, rnn_config, train_config, layer_idx, is_training):
+    def __init__(self, rnn_config, train_config, layer_idx, is_training, prev_blstm=False):
         self.rnn_config = rnn_config
         self.train_config = train_config
         self.is_training = is_training
         self.layer_idx = layer_idx
         self.layer_config = rnn_config['layer_configs'][layer_idx]
-        self.w_shape = (rnn_config['layout'][layer_idx-1] + rnn_config['layout'][layer_idx],
-                   rnn_config['layout'][layer_idx])
+        if prev_blstm:
+            self.w_shape = (self.rnn_config['layout'][layer_idx-1]*2 + self.rnn_config['layout'][layer_idx],
+                            self.rnn_config['layout'][layer_idx])
+        else:
+            self.w_shape = (self.rnn_config['layout'][layer_idx-1] + self.rnn_config['layout'][layer_idx],
+                            self.rnn_config['layout'][layer_idx])
+
         self.b_shape = (1, self.w_shape[1])
 
         if 'x' in self.train_config['batchnorm']['modes']:
@@ -52,8 +57,8 @@ class LSTMLayer:
                                                                       dtype=tf.float32, allow_nan_stats=False)
             self.layer_loss = 0
 
-    def create_forward_pass(self, layer_input, mod_layer_config, time_idx):
-        if time_idx == 0:
+    def create_forward_pass(self, layer_input, mod_layer_config, init, time_idx):
+        if init:
             cell_shape = (tf.shape(layer_input)[0], self.b_shape[1])
             self.cell_state = tf.zeros(cell_shape)
             self.cell_output = tf.zeros(cell_shape)

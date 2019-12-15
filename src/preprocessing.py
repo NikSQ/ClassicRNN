@@ -1,5 +1,4 @@
 import numpy as np
-from src.logging_tools import get_logger
 
 
 def extract_seqs(x, y, seqlens, data_config, remove_bias=False):
@@ -44,18 +43,18 @@ def extract_seqs(x, y, seqlens, data_config, remove_bias=False):
     for sample_idx, extraction_range in enumerate(seq_extraction_ranges):
         seq_len = len(extraction_range)
         if len(extraction_range) is not 0:
-            x_seqs[seq_idx, :, range(seq_len)] = x[sample_idx, :, extraction_range]
+            x_seqs[seq_idx, :, -seq_len:] = np.transpose(x[sample_idx, :, extraction_range])
             y_seqs[seq_idx] = y[sample_idx, :, -1]
             end_time[seq_idx] = seq_len - 1
-            repeats = int(np.ceil(float(in_seq_len) / float(seq_len)))
-            for repeat in range(1, repeats):
-                if repeat != repeats - 1:
-                    x_seqs[seq_idx, :, repeat * seq_len:(repeat + 1) * seq_len] = x_seqs[seq_idx, :, :seq_len]
-                else:
-                    if in_seq_len % seq_len == 0:
-                        x_seqs[seq_idx, :, repeat * seq_len:] = x_seqs[seq_idx, :, :(seq_len)]
-                    else:
-                        x_seqs[seq_idx, :, repeat * seq_len:] = x_seqs[seq_idx, :, :(in_seq_len % seq_len)]
+            #repeats = int(np.ceil(float(in_seq_len) / float(seq_len)))
+            #for repeat in range(1, repeats):
+                #if repeat != repeats - 1:
+                    #x_seqs[seq_idx, :, repeat * seq_len:(repeat + 1) * seq_len] = x_seqs[seq_idx, :, :seq_len]
+                #else:
+                    #if in_seq_len % seq_len == 0:
+                        #x_seqs[seq_idx, :, repeat * seq_len:] = x_seqs[seq_idx, :, :(seq_len)]
+                    #else:
+                        #x_seqs[seq_idx, :, repeat * seq_len:] = x_seqs[seq_idx, :, :(in_seq_len % seq_len)]
             seq_idx += 1
     unique, counts = np.unique(np.argmax(y_seqs, axis=1), return_counts=True)
 

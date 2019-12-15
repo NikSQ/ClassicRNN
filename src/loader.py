@@ -31,8 +31,8 @@ def load_dataset(l_data_config):
 
 def load_timit(l_data_config):
     if l_data_config['dataset'] == 'timit_s':
-        n_te_phonems = 15000
-        n_tv_phonems = 30000
+        n_te_phonems = 100000
+        n_tv_phonems = 400000
     timit_path = '../../datasets/timit/'
     data_dict = {'tr': dict(), 'va': dict(), 'te': dict()}
 

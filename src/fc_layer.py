@@ -29,7 +29,7 @@ class FCLayer:
                 self.layer_loss = 0
 
     # Returns the output of the layer. If its the output layer, this only returns the activation!
-    def create_forward_pass(self, x, mod_layer_config, time_idx):
+    def create_forward_pass(self, x, mod_layer_config, init, time_idx):
         if self.train_config['batchnorm']['type'] == 'batch' and 'fc' in self.train_config['batchnorm']:
             x = self.bn_x(x, self.is_training)
         act = tf.matmul(x, self.w) + self.b
