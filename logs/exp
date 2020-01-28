@@ -32,7 +32,7 @@ p_state_c = .05
 p_out_c =  .01
 
 l2 = .02
-epochs = 1500
+epochs = 2500
 
 
 dataset = 'timit_s'
