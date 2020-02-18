@@ -31,8 +31,8 @@ def load_dataset(l_data_config):
 
 def load_timit(l_data_config):
     if l_data_config['dataset'] == 'timit_s':
-        n_te_phonems = 100000
-        n_tv_phonems = 400000
+        n_te_phonems = 20000
+        n_tv_phonems = 70000
     timit_path = '../../datasets/timit/'
     data_dict = {'tr': dict(), 'va': dict(), 'te': dict()}
 
@@ -53,7 +53,6 @@ def load_timit(l_data_config):
         n_phonems += partial_set['x'].shape[0]
         if n_phonems > n_tv_phonems:
             break
-
     xs = []
     ys = []
     for x, y in itertools.zip_longest(partial_dict['x'], partial_dict['y']):

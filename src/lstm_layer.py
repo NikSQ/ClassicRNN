@@ -85,10 +85,21 @@ class LSTMLayer:
             o_act = tf.contrib.layers.layer_norm(o_act)
             c_act = tf.contrib.layers.layer_norm(c_act)
 
+
         i = tf.sigmoid(i_act)
-        f = 1. - i
         o = tf.sigmoid(o_act)
         c = tf.tanh(c_act)
+        if 'i' in self.rnn_config['discrete_acts']:
+            i_cond = tf.cast(tf.math.greater_equal(i_act, tf.zeros_like(i_act)), dtype=tf.float32)
+            i = tf.stop_gradient(i_cond - i) + i
+        if 'c' in self.rnn_config['discrete_acts']:
+            c_cond = tf.cast(tf.math.greater_equal(c_act, tf.zeros_like(c_act)), dtype=tf.float32)
+            c = tf.stop_gradient(c_cond - c) + c
+        if 'o' in self.rnn_config['discrete_acts']:
+            o_cond = 2*tf.cast(tf.math.greater_equal(o_act, tf.zeros_like(o_act)), dtype=tf.float32)-1
+            o = tf.stop_gradient(o_cond - o) + o
+
+        f = 1. - i
 
         updated_state = tf.multiply(f, self.cell_state, name='f_cs') + tf.multiply(i, c, name='i_cs')
         updated_output = tf.multiply(o, tf.tanh(updated_state))
