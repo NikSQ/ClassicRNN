@@ -3,6 +3,21 @@ from src.tools import generate_init_values
 from src.tools import get_batchnormalizer
 import numpy as np
 
+@tf.custom_gradient
+def ternarize_weight(w):
+    w = tf.cast(tf.cast(w + 0.5, dtype=tf.int32), tf.float32)
+    w = tf.clip_by_value(w, -1., 1.)
+    def grad(dy):
+        return dy
+    return w, grad
+
+
+@tf.custom_gradient
+def binarize_weight(w):
+    w = tf.cast(tf.greater_equal(w, 0.), tf.float32) * 2. -1.
+    def grad(dy):
+        return dy
+    return w, grad
 
 class FCLayer:
     def __init__(self, rnn_config, train_config, layer_idx, is_training):
@@ -32,7 +47,16 @@ class FCLayer:
     def create_forward_pass(self, x, mod_layer_config, init, time_idx):
         if self.train_config['batchnorm']['type'] == 'batch' and 'fc' in self.train_config['batchnorm']:
             x = self.bn_x(x, self.is_training)
-        act = tf.matmul(x, self.w) + self.b
+
+        if self.rnn_config['weight_type'] == 'continuous':
+            act = tf.matmul(x, self.w) + self.b
+        elif self.rnn_config['weight_type'] == 'ternary':
+            act = tf.matmul(x, ternarize_weight(self.w)) + self.b
+        elif self.rnn_config['weight_type'] == 'binary':
+            act = tf.matmul(x, binarize_weight(self.w)) + self.b
+        else:
+            raise Exception('weight type not understood')
+
         if self.train_config['batchnorm']['type'] != 'layer':
             return tf.contrib.layers.layer_norm(act)
         else:

@@ -3,6 +3,40 @@ import numpy as np
 from src.tools import generate_init_values
 from src.tools import get_batchnormalizer
 
+
+@tf.custom_gradient
+def ternarize_weight(w):
+    w = tf.cast(tf.cast(w + 0.5, dtype=tf.int32), tf.float32)
+    w = tf.clip_by_value(w, -1., 1.)
+    def grad(dy):
+        return dy
+    return w, grad
+
+
+@tf.custom_gradient
+def binarize_weight(w):
+    w = tf.cast(tf.greater_equal(w, 0.), tf.float32) * 2. - 1.
+    def grad(dy):
+        return dy
+    return w, grad
+
+
+@tf.custom_gradient
+def disc_sigmoid(act, n_bins):
+    s_act = tf.sigmoid(act)
+    disc_output = tf.cast(tf.cast(s_act*n_bins, dtype=tf.int32), dtype=tf.float32) / n_bins
+    def grad(dy):
+        return dy * tf.multiply(s_act, 1-s_act), tf.zeros_like(n_bins)
+    return disc_output, grad
+
+
+@tf.custom_gradient
+def disc_tanh(act, n_bins):
+    disc_output = tf.cast(tf.cast(tf.sigmoid(act) * n_bins, dtype=tf.int32), dtype=tf.float32) * 2 / n_bins - 1
+    def grad(dy):
+        return dy * (1 - tf.square(tf.tanh(act))), tf.zeros_like(n_bins)
+    return disc_output, grad
+
 class LSTMLayer:
     def __init__(self, rnn_config, train_config, layer_idx, is_training, prev_blstm=False):
         self.rnn_config = rnn_config
@@ -77,9 +111,21 @@ class LSTMLayer:
 
         x = tf.concat([layer_input, co], axis=1)
 
-        i_act = self.bi + tf.matmul(x, self.wi, name='i')
-        o_act = self.bo + tf.matmul(x, self.wo, name='o')
-        c_act = self.bc + tf.matmul(x, self.wc, name='c')
+        if self.rnn_config['weight_type'] == 'continuous':
+            i_act = self.bi + tf.matmul(x, self.wi, name='i')
+            o_act = self.bo + tf.matmul(x, self.wo, name='o')
+            c_act = self.bc + tf.matmul(x, self.wc, name='c')
+        elif self.rnn_config['weight_type'] == 'ternary':
+            i_act = self.bi + tf.matmul(x, ternarize_weight(self.wi), name='i')
+            o_act = self.bo + tf.matmul(x, ternarize_weight(self.wo), name='o')
+            c_act = self.bc + tf.matmul(x, ternarize_weight(self.wc), name='c')
+        elif self.rnn_config['weight_type'] == 'binary':
+            i_act = self.bi + tf.matmul(x, binarize_weight(self.wi), name='i')
+            o_act = self.bo + tf.matmul(x, binarize_weight(self.wo), name='o')
+            c_act = self.bc + tf.matmul(x, binarize_weight(self.wc), name='c')
+        else:
+            raise Exception('weight type not understood')
+
         if self.train_config['batchnorm']['type'] == 'layer':
             i_act = tf.contrib.layers.layer_norm(i_act)
             o_act = tf.contrib.layers.layer_norm(o_act)
@@ -90,14 +136,11 @@ class LSTMLayer:
         o = tf.sigmoid(o_act)
         c = tf.tanh(c_act)
         if 'i' in self.rnn_config['discrete_acts']:
-            i_cond = tf.cast(tf.math.greater_equal(i_act, tf.zeros_like(i_act)), dtype=tf.float32)
-            i = tf.stop_gradient(i_cond - i) + i
+            i = disc_sigmoid(i_act, self.rnn_config['n_bins'])
         if 'c' in self.rnn_config['discrete_acts']:
-            c_cond = tf.cast(tf.math.greater_equal(c_act, tf.zeros_like(c_act)), dtype=tf.float32)
-            c = tf.stop_gradient(c_cond - c) + c
+            c = disc_tanh(c_act, self.rnn_config['n_bins'])
         if 'o' in self.rnn_config['discrete_acts']:
-            o_cond = 2*tf.cast(tf.math.greater_equal(o_act, tf.zeros_like(o_act)), dtype=tf.float32)-1
-            o = tf.stop_gradient(o_cond - o) + o
+            o = disc_sigmoid(o_act, self.rnn_config['n_bins'])
 
         f = 1. - i
 
