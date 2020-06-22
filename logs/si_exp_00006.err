@@ -1,14 +1,7 @@
-2020-02-24 17:51:50.150294: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-02-24 17:51:50.288690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
-pciBusID: 0000:0b:00.0
-totalMemory: 10.76GiB freeMemory: 10.60GiB
-2020-02-24 17:51:50.288820: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2020-02-24 17:51:54.772293: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2020-02-24 17:51:54.772380: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2020-02-24 17:51:54.772429: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2020-02-24 17:51:54.773525: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10230 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:0b:00.0, compute capability: 7.5)
-/clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
-  keepdims=keepdims)
-/clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide
-  ret = ret.dtype.type(ret / rcount)
+2020-06-21 20:12:31.284051: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-06-21 20:12:31.311084: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-06-21 20:12:31.311454: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rudiratte
+2020-06-21 20:12:31.311731: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rudiratte
+2020-06-21 20:12:31.312039: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-06-21 20:12:31.312287: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-06-21 20:12:31.312521: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0

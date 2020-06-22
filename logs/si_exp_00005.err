@@ -1,14 +1,7 @@
-2020-02-24 17:50:13.908664: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-02-24 17:50:14.059554: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
-name: Tesla K40c major: 3 minor: 5 memoryClockRate(GHz): 0.745
-pciBusID: 0000:06:00.0
-totalMemory: 11.92GiB freeMemory: 11.85GiB
-2020-02-24 17:50:14.059660: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2020-02-24 17:50:14.385324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2020-02-24 17:50:14.385517: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2020-02-24 17:50:14.385695: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2020-02-24 17:50:14.385872: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11481 MB memory) -> physical GPU (device: 0, name: Tesla K40c, pci bus id: 0000:06:00.0, compute capability: 3.5)
-/clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
-  keepdims=keepdims)
-/clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide
-  ret = ret.dtype.type(ret / rcount)
+2020-06-21 20:12:20.001482: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-06-21 20:12:20.012121: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-06-21 20:12:20.012228: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: fritzfantom
+2020-06-21 20:12:20.012268: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: fritzfantom
+2020-06-21 20:12:20.012341: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-06-21 20:12:20.012404: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-06-21 20:12:20.012440: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0

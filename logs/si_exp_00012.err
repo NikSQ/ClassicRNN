@@ -1,0 +1,7 @@
+2020-06-21 20:27:29.574491: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-06-21 20:27:29.581058: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-06-21 20:27:29.584394: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rudiratte
+2020-06-21 20:27:29.584749: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rudiratte
+2020-06-21 20:27:29.585052: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-06-21 20:27:29.585299: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-06-21 20:27:29.585508: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
