@@ -1,7 +1,7 @@
-2020-06-22 11:02:20.015342: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-06-22 11:02:20.029176: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2020-06-22 11:02:20.029292: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: fritzfantom
-2020-06-22 11:02:20.029384: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: fritzfantom
-2020-06-22 11:02:20.029490: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
-2020-06-22 11:02:20.029572: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
-2020-06-22 11:02:20.029630: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
+2020-06-24 13:49:20.508812: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-06-24 13:49:20.517437: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-06-24 13:49:20.517535: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: zaphod
+2020-06-24 13:49:20.517599: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: zaphod
+2020-06-24 13:49:20.517695: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-06-24 13:49:20.517760: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-06-24 13:49:20.517807: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
