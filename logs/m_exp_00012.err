@@ -1,7 +1,8 @@
-2020-06-24 13:50:59.047258: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-06-24 13:50:59.060060: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2020-06-24 13:50:59.060166: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: undyne
-2020-06-24 13:50:59.060264: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: undyne
-2020-06-24 13:50:59.060358: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
-2020-06-24 13:50:59.060434: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
-2020-06-24 13:50:59.060486: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
+2020-06-29 18:54:36.105405: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-06-29 18:54:36.114079: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-06-29 18:54:36.114169: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: fritzfantom
+2020-06-29 18:54:36.114250: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: fritzfantom
+2020-06-29 18:54:36.114338: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-06-29 18:54:36.114412: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-06-29 18:54:36.114463: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
+slurmstepd-fritzfantom: error: *** JOB 1798128 ON fritzfantom CANCELLED AT 2020-06-30T18:54:56 DUE TO TIME LIMIT ***
