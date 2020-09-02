@@ -1,8 +1,7 @@
-2020-06-29 18:54:36.776679: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-06-29 18:54:36.791262: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2020-06-29 18:54:36.791370: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: gate
-2020-06-29 18:54:36.791415: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: gate
-2020-06-29 18:54:36.791496: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
-2020-06-29 18:54:36.791552: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
-2020-06-29 18:54:36.791587: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
-slurmstepd-gate: error: *** JOB 1798130 ON gate CANCELLED AT 2020-06-30T18:54:56 DUE TO TIME LIMIT ***
+2020-08-31 11:08:07.939175: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-08-31 11:08:07.947695: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-08-31 11:08:07.947989: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: ravenriad
+2020-08-31 11:08:07.948249: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: ravenriad
+2020-08-31 11:08:07.948485: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-08-31 11:08:07.948721: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-08-31 11:08:07.948942: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
