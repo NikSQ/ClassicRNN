@@ -19,7 +19,7 @@ except KeyError:
 
 filename = 'si_exp'
 runs = 5
-lr = .03
+lr = .001
 lr_tau = 1500
 p_state_c = .5
 p_out_c = .05
@@ -36,7 +36,7 @@ discrete_acts = []
 norm_type = 'none'
 
 bn_mode = []
-l2 = .2
+l2 = .4
 epochs = 3000
 
 
