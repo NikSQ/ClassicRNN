@@ -1,7 +1,7 @@
-2020-09-06 23:46:03.942695: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-09-06 23:46:03.970198: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2020-09-06 23:46:03.970640: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: laser-compressor-3000
-2020-09-06 23:46:03.970985: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: laser-compressor-3000
-2020-09-06 23:46:03.971318: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
-2020-09-06 23:46:03.971670: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
-2020-09-06 23:46:03.971956: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
+2020-09-15 10:18:07.705302: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-09-15 10:18:07.916144: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2020-09-15 10:18:07.916622: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: blackskimmer
+2020-09-15 10:18:07.917004: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: blackskimmer
+2020-09-15 10:18:07.917292: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
+2020-09-15 10:18:07.917546: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
+2020-09-15 10:18:07.917791: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
