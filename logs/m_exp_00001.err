@@ -1,0 +1,21 @@
+2024-01-22 11:18:12.655775: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2024-01-22 11:18:12.788548: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:897] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-01-22 11:18:12.789140: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: GeForce GT 1030 major: 6 minor: 1 memoryClockRate(GHz): 1.468
+pciBusID: 0000:41:00.0
+totalMemory: 1.95GiB freeMemory: 1021.81MiB
+2024-01-22 11:18:12.789370: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2024-01-22 11:18:21.203720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-01-22 11:18:21.204122: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2024-01-22 11:18:21.207590: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2024-01-22 11:18:21.224152: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 732 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
+2024-01-22 11:22:09.620926: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2024-01-22 11:22:09.621370: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-01-22 11:22:09.623210: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2024-01-22 11:22:09.623425: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2024-01-22 11:22:09.623673: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 732 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)
+2024-01-22 11:25:54.677423: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2024-01-22 11:25:54.677856: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-01-22 11:25:54.678096: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2024-01-22 11:25:54.678268: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2024-01-22 11:25:54.678509: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 732 MB memory) -> physical GPU (device: 0, name: GeForce GT 1030, pci bus id: 0000:41:00.0, compute capability: 6.1)

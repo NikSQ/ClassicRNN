@@ -1,11 +1,7 @@
-2020-09-15 13:06:42.522779: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2020-09-15 13:06:42.534687: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2020-09-15 13:06:42.535370: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rocco
-2020-09-15 13:06:42.535710: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rocco
-2020-09-15 13:06:42.536091: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 440.59.0
-2020-09-15 13:06:42.536543: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 440.59.0
-2020-09-15 13:06:42.536912: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 440.59.0
-/clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:140: RuntimeWarning: Degrees of freedom <= 0 for slice
-  keepdims=keepdims)
-/clusterFS/home/student/kopp13/miniconda3/envs/tensorflow/lib/python3.5/site-packages/numpy/core/_methods.py:132: RuntimeWarning: invalid value encountered in true_divide
-  ret = ret.dtype.type(ret / rcount)
+2024-01-22 11:17:17.877089: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2024-01-22 11:17:17.906061: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2024-01-22 11:17:17.906411: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rocco
+2024-01-22 11:17:17.906637: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rocco
+2024-01-22 11:17:17.906898: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 460.73.1
+2024-01-22 11:17:17.907198: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 460.73.1
+2024-01-22 11:17:17.907380: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 460.73.1
