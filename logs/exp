@@ -35,8 +35,8 @@ bn_type = ['layer', 'none'][1]
 weight_type = "ternary"
 l2 = .00
 epochs = 3000
-discrete_acts = [[''], ['i'], ['c'], ['o'], ['i', 'c'], ['i', 'o'], ['c', 'o'], ['i', 'c', 'o']][task_id % 8]
-act_bins = [2., 3., 4., 8.][int(task_id / 32)]
+discrete_acts = [[''], ['i'], ['c'], ['o'], ['i', 'c'], ['i', 'o'], ['c', 'o'], ['i', 'c', 'o']][int(task_id / 4)]
+act_bins = [2., 3., 4., 8.][int(task_id % 4)]
 #act_bins = 2.
 #discrete_acts = []
 

@@ -1,20 +1,20 @@
-2024-06-13 23:16:37.216589: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2024-06-13 23:16:37.397095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+2024-06-17 21:06:00.770955: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2024-06-17 21:06:00.922672: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
 name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
-pciBusID: 0000:02:00.0
+pciBusID: 0000:03:00.0
 totalMemory: 10.76GiB freeMemory: 10.61GiB
-2024-06-13 23:16:37.397641: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2024-06-13 23:16:39.964002: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2024-06-13 23:16:39.964565: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2024-06-13 23:16:39.966407: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2024-06-13 23:16:39.966941: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10237 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:02:00.0, compute capability: 7.5)
-2024-06-13 23:44:41.840278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2024-06-13 23:44:41.840851: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2024-06-13 23:44:41.842555: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2024-06-13 23:44:41.842885: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2024-06-13 23:44:41.843335: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10237 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:02:00.0, compute capability: 7.5)
-2024-06-14 00:12:46.886222: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
-2024-06-14 00:12:46.886722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
-2024-06-14 00:12:46.887159: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
-2024-06-14 00:12:46.887465: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
-2024-06-14 00:12:46.887975: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10237 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:02:00.0, compute capability: 7.5)
+2024-06-17 21:06:00.923163: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2024-06-17 21:06:03.317245: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-06-17 21:06:03.317678: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2024-06-17 21:06:03.317987: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2024-06-17 21:06:03.320669: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10237 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:03:00.0, compute capability: 7.5)
+2024-06-17 21:29:57.791152: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2024-06-17 21:29:57.791736: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-06-17 21:29:57.792080: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2024-06-17 21:29:57.792358: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2024-06-17 21:29:57.798510: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10237 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:03:00.0, compute capability: 7.5)
+2024-06-17 21:53:46.035379: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2024-06-17 21:53:46.035812: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-06-17 21:53:46.036083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2024-06-17 21:53:46.036289: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2024-06-17 21:53:46.036537: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10237 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:03:00.0, compute capability: 7.5)
