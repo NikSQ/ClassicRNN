@@ -5,37 +5,46 @@ from src.tools import get_batchnormalizer
 
 
 @tf.custom_gradient
-def ternarize_weight(w):
-    w = tf.cast(tf.cast(w + 0.5, dtype=tf.int32), tf.float32)
+def ternarize_weight(W):
+    #w = tf.cast(tf.cast(w + 0.5, dtype=tf.int32), tf.float32)
+    w = tf.round(tf.tanh(5*W))
     w = tf.clip_by_value(w, -1., 1.)
     def grad(dy):
-        return dy
+        dx = dy * 5*(1 - tf.square(tf.tanh(5*W)))
+        return dx
     return w, grad
 
 
 @tf.custom_gradient
-def binarize_weight(w):
-    w = tf.cast(tf.greater_equal(w, 0.), tf.float32) * 2. - 1.
+def binarize_weight(W):
+    w = tf.cast(tf.greater_equal(W, 0.), tf.float32) * 2. - 1.
     def grad(dy):
-        return dy
+        #exp_w = tf.exp(-W)
+        #dx = dy * tf.divide(exp_w, tf.square(1 + exp_w))
+        return dy * (1 - tf.square(tf.tanh(W)))
     return w, grad
 
 
 @tf.custom_gradient
 def disc_sigmoid(act, n_bins):
     s_act = tf.sigmoid(act)
-    disc_output = tf.cast(tf.cast(s_act*n_bins, dtype=tf.int32), dtype=tf.float32) / n_bins
+    disc_output = tf.round(s_act*n_bins - .5) / (n_bins - 1)
+    disc_output = tf.clip_by_value(disc_output, 0., 1.)
+    #disc_output = tf.cast(tf.cast(s_act*n_bins, dtype=tf.int32), dtype=tf.float32) / n_bins
     def grad(dy):
         return dy * tf.multiply(s_act, 1-s_act), tf.zeros_like(n_bins)
     return disc_output, grad
 
-
-@tf.custom_gradient
 def disc_tanh(act, n_bins):
-    disc_output = tf.cast(tf.cast(tf.sigmoid(act) * n_bins, dtype=tf.int32), dtype=tf.float32) * 2 / n_bins - 1
-    def grad(dy):
-        return dy * (1 - tf.square(tf.tanh(act))), tf.zeros_like(n_bins)
-    return disc_output, grad
+    return disc_sigmoid(act, n_bins) * 2 - 1.
+
+#@tf.custom_gradient
+#def disc_tanh(act, n_bins):
+    #s_act
+    #disc_output = tf.cast(tf.cast(tf.sigmoid(act) * n_bins, dtype=tf.int32), dtype=tf.float32) * 2 / n_bins - 1
+    #def grad(dy):
+        #return dy * (1 - tf.square(tf.tanh(act))), tf.zeros_like(n_bins)
+    #return disc_output, grad
 
 class LSTMLayer:
     def __init__(self, rnn_config, train_config, layer_idx, is_training, prev_blstm=False):

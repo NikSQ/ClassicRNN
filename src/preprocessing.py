@@ -1,5 +1,44 @@
 import numpy as np
 
+def extract_sequences(dataset_dict, dataset_config, remove_bias=False):
+    in_seq_len = dataset_config["in_seq_len"]
+    seqlens = np.squeeze(dataset_dict['seqlen']).astype(np.int32)
+    
+    x = dataset_dict["x"]
+    y = dataset_dict["y"]
+
+    if x.shape[0] != y.shape[0]:
+        raise Exception("samples in X != samples in Y")
+    
+    if remove_bias:
+        n_category_samples = []
+        category_seq_lens = []
+        category_idcs = []
+
+        for category in range(10):
+            category_idcs.append(np.where(y[:, category] == 1)[0])
+            category_seq_lens.append(seqlens[category_idcs[-1]])
+            n_category_samples.append(np.searchsorted(category_seq_lens[-1], in_seq_len))
+
+        n_samples_per_category = np.min(n_category_samples)  # Determines the amount of samples of each category
+        selected_idcs = [digit_idc[:n_samples_per_category] for digit_idc in category_idcs]
+
+        x_list = []
+        y_list = []
+        seqlens_list = []
+        for idcs in selected_idcs:
+            x_list.append(x[idcs])
+            y_list.append(y[idcs])
+            seqlens_list.append(seqlens[idcs])
+
+        x_new = np.concatenate(x_list, axis=0)[:, :, :in_seq_len]
+        y_new = np.concatenate(y_list, axis=0)
+        seqlens_new = np.concatenate(seqlens_list, axis=0)
+        return x_new, y_new, seqlens_new
+
+    raise Exception("Not implemented")
+
+
 
 def extract_seqs(x, y, seqlens, data_config, remove_bias=False):
     in_seq_len = data_config['in_seq_len']

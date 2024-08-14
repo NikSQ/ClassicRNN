@@ -1,6 +1,6 @@
 from scipy.io import loadmat
 import numpy as np
-from src.preprocessing import extract_seqs
+from src.preprocessing import extract_seqs, extract_sequences
 import itertools
 
 
@@ -14,13 +14,19 @@ filenames = {'penstroke_tr': '../datasets/mnist_pen_strokes/mps_full1_tr.mat',
              'syn_dataset_va': '../../datasets/synthetic/syn_va.mat',
              'syn_dataset_te': '../../datasets/synthetic/syn_te.mat'}
 
+mnist_filenames = {'tr': '../../datasets/mnist_pen_strokes/mps_all_tr.mat',
+                   'va': '../../datasets/mnist_pen_strokes/mps_all_va.mat',
+                   'te': '../../datasets/mnist_pen_strokes/mps_all_te.mat'}
+                
+
 
 def load_dataset(l_data_config):
     entry = l_data_config['dataset']
     if entry.startswith('timit'):
         data_dict = load_timit(l_data_config)
     elif entry.startswith('penstroke'):
-        data_dict = get_datadict(l_data_config, 'penstroke')
+        #data_dict = get_datadict(l_data_config, 'penstroke')
+        data_dict = load_mnist_dataset(l_data_config)
     elif entry.startswith('sign'):
         data_dict = get_datadict(l_data_config, 'sign_language')
     elif entry.startswith('syn'):
@@ -29,10 +35,21 @@ def load_dataset(l_data_config):
     return data_dict
 
 
+def load_mnist_dataset(l_data_config):
+    datasets = {}
+
+    for data_key in ["tr", "va", "te"]:
+        dataset_config = l_data_config[data_key]
+        unprocessed_data = loadmat(mnist_filenames[data_key])
+        dataset = {}
+        dataset["x"], dataset["y"], dataset["seqlen"] = extract_sequences(unprocessed_data, dataset_config, l_data_config["remove_bias"])
+        datasets[data_key] = dataset
+    return datasets
+
 def load_timit(l_data_config):
     if l_data_config['dataset'] == 'timit_s':
-        n_te_phonems = 20000
-        n_tv_phonems = 70000
+        n_te_phonems = 30000
+        n_tv_phonems = 3000
     timit_path = '../../datasets/timit/'
     data_dict = {'tr': dict(), 'va': dict(), 'te': dict()}
 

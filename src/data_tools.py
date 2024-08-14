@@ -11,7 +11,7 @@ class LabeledData:
             self.data[data_key] = dict()
             x_init = tf.constant_initializer(data_dict[data_key]['x'])
             y_init = tf.constant_initializer(data_dict[data_key]['y'])
-            end_init = tf.constant_initializer(data_dict[data_key]['end'], dtype=tf.int32)
+            end_init = tf.constant_initializer(data_dict[data_key]['seqlen'], dtype=tf.int32)
             self.data[data_key]['x'] = tf.get_variable(name='x_' + data_key, shape=data_dict[data_key]['x'].shape,
                                                        dtype=tf.float32, trainable=False, initializer=x_init)
             self.data[data_key]['y'] = tf.get_variable(name='y_' + data_key, shape=data_dict[data_key]['y'].shape,

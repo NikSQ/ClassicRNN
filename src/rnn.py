@@ -75,7 +75,12 @@ class RNN:
         x = self.l_data.data[data_key]['x_batch']
         y = self.l_data.data[data_key]['y_batch']
         end = self.l_data.data[data_key]['end_batch']
-        output = self.unfold_rnn(x, x_shape, mod_rnn_config)[-1]
+
+        output = self.unfold_rnn(x, x_shape, mod_rnn_config)
+        output = tf.stack(output, axis=-1)
+        one_hot = tf.one_hot(end, x_shape[2])[:, tf.newaxis, :]
+        output = tf.multiply(output, one_hot)
+        output = tf.reduce_sum(output, axis=2)
 
         #for seq_idx in range(x_shape[2]):
             #layer_input = x[:, :, seq_idx]
