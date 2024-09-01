@@ -1,7 +1,7 @@
-2024-08-28 06:31:13.785597: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
-2024-08-28 06:31:13.812783: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
-2024-08-28 06:31:13.813268: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rocco
-2024-08-28 06:31:13.813741: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rocco
-2024-08-28 06:31:13.814282: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 460.73.1
-2024-08-28 06:31:13.814798: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 460.73.1
-2024-08-28 06:31:13.815173: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 460.73.1
+2024-09-01 05:09:40.070138: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2024-09-01 05:09:40.089004: E tensorflow/stream_executor/cuda/cuda_driver.cc:397] failed call to cuInit: CUDA_ERROR_NO_DEVICE
+2024-09-01 05:09:40.089381: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] retrieving CUDA diagnostic information for host: rocco
+2024-09-01 05:09:40.089578: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:170] hostname: rocco
+2024-09-01 05:09:40.089792: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:194] libcuda reported version is: 460.73.1
+2024-09-01 05:09:40.090002: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:198] kernel reported version is: 460.73.1
+2024-09-01 05:09:40.090183: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:305] kernel version seems to match DSO: 460.73.1
