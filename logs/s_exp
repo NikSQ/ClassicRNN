@@ -27,16 +27,16 @@ p_out_c = .03
 #layout = [[20, 20], [30,30],[40, 40], [50, 50], [60, 60], [70, 70]][task_id]
 #layout=[n_neurons[task_id % 4], n_neurons[int(task_id / 4)]]
 layout=[50, 30]
-#weight_type = ['continuous', 'ternary', 'binary'][task_id]
-weight_type = "ternary"
-discrete_acts = [[''], ['i'], ['c'], ['o'], ['i', 'c'], ['i', 'o'], ['c', 'o'], ['i', 'c', 'o']][task_id % 8]
+weight_type = ['continuous', 'ternary', 'binary'][task_id]
+#discrete_acts = [[''], ['i'], ['c'], ['o'], ['i', 'c'], ['i', 'o'], ['c', 'o'], ['i', 'c', 'o']][task_id % 8]
+discrete_acts = ['']
 act_bins = [2., 3., 4., 8.][int(task_id / 16)]
 act_bins = 2.
 bn_type = 'none'
 
 bn_mode = []
 l2 = 0.
-epochs = 1000
+epochs = 3000
 
 
 dataset = 'sign_dataset'
