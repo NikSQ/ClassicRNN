@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "../exps/mtest.py", line 32, in <module>
+    reg_mode = ['none', 'zoneout', 'zoneout', 'zoneout', 'none'][task_id]
+IndexError: list index out of range
